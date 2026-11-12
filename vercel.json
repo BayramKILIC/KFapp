@@ -1,0 +1,30 @@
+{
+  "redirects": [
+    {
+      "source": "/delf-a1",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/delf-a1/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/a1/modul-1.html",
+      "destination": "/delf-a1/modul-1-selamlasma-tanisma/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/indir.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ]
+}
