@@ -100,6 +100,8 @@ section{display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px}
 .goals li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;gap:10px;font-size:15px}
 .goals li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:8px}
 
+.video-embed{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:var(--ink)}
+.video-embed iframe{width:100%;height:100%;border:0;display:block}
 .video{aspect-ratio:16/9;background:var(--ink);color:#fff;border-radius:var(--r);display:grid;place-items:center;text-align:center;padding:20px}
 .video .play{width:64px;height:64px;border-radius:50%;background:var(--gold);display:grid;place-items:center;margin:0 auto 10px;color:var(--ink);font-size:24px}
 
@@ -297,7 +299,7 @@ textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:
 <section id="video">
   <span class="eyebrow">Ders videosu</span>
   <h2>Önce dersi izle</h2>
-  <div class="video"><div><div class="play" aria-hidden="true">▶</div><strong>Ders videosu buraya gelecek</strong><p style="opacity:.75;font-size:14px">YouTube videosu yayınlandığında bu alana yerleştirilecek.</p></div></div>
+  <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/q2jWhZZVggY?rel=0" title="01 – Fransızca Selamlaşma ve Tanışma | DELF A1 Hazırlık" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
 </section>
 
 <section id="kesif">
