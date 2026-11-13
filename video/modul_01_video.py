@@ -9,7 +9,7 @@ FR("texte", "M1") retrouve automatiquement le fichier audio du site qui porte ce
 """
 from video_engine import T, Box, Img, Arrow, Badge, Countdown, TR, FR, beat, scene
 
-MODULE = {"slug": "modul-1-selamlasma-tanisma", "label": "Modül 1", "url": "kolayfransızca.app"}
+MODULE = {"slug": "modul-1-selamlasma-tanisma", "label": "Modül 1", "url": "kolayfransizca.app"}
 A = "a1/audio/m01/"
 IMG = "a1/img/m01/"
 CX = 960  # centre horizontal
@@ -134,7 +134,7 @@ SCENES.append(scene("Giriş", [
     beat(show=T("o3", "•  Adını harf harf söylemeyi", 140, 480, size=46), say=TR("adını harf harf söylemeyi,")),
     beat(show=T("o4", "•  DELF sözlü sınavının [ilk bölümünü|hl]", 140, 580, size=46),
          say=TR("ve DELF sözlü sınavının ilk bölümüne hazırlanmayı öğreneceksin.")),
-    beat(show=[Badge("url", "Alıştırmalar ve test:  kolayfransızca.app", 140, 720, size=36, fill="gold", color="ink")],
+    beat(show=[Badge("url", "Alıştırmalar ve test:  kolayfransizca.app", 140, 720, size=36, fill="gold", color="ink")],
          say=TR("Bu dersin alıştırmaları, kelime testi ve modül testi ücretsiz olarak sitemizde seni bekliyor. Adresi ekranda görüyorsun."), pause=0.8),
 ]))
 
@@ -527,7 +527,7 @@ SCENES.append(scene("Kapanış", [
         T("r5", "•  DELF sözlü sınavının ilk bölümü", 140, 640, size=44)],
          say=TR("Bugün selam vermeyi ve vedalaşmayı, tü ve vu farkını, etr ve saple fiillerini, Fransız alfabesini "
                 "ve DELF sözlü sınavının ilk bölümünü öğrendik."), pause=0.5),
-    beat(show=Badge("url", "Alıştırmalar, kelime testi ve modül testi:  kolayfransızca.app", 140, 760, size=34, fill="gold", color="ink"),
+    beat(show=Badge("url", "Alıştırmalar, kelime testi ve modül testi:  kolayfransizca.app", 140, 760, size=34, fill="gold", color="ink"),
          say=TR("Şimdi sıra alıştırmalarda. Sitemizde bu modülün alıştırmalarını, kelime testini, yazma ödevini ve DELF tarzı testi ücretsiz olarak bulabilirsin."),
          pause=0.5),
     beat(clear=True, show=[T("t1", "Bu kurs tamamen [ücretsiz|hl].", CX, 300, size=64, font="display", align="center"),

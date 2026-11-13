@@ -13,7 +13,7 @@ def TR(text):
     """Narration turque : le « ⁿ » des okunuş est réservé à l'écran, Derya lit un « n » normal."""
     return _TR(text.replace("ⁿ", "n"))
 
-MODULE = {"slug": "modul-2-kisisel-bilgiler", "label": "Modül 2", "url": "kolayfransızca.app"}
+MODULE = {"slug": "modul-2-kisisel-bilgiler", "label": "Modül 2", "url": "kolayfransizca.app"}
 A = "a1/audio/m02/"
 IMG = "a1/img/m02/"
 CX = 960
@@ -162,7 +162,7 @@ SCENES.append(scene("Giriş", [
          say=TR("sıfırdan bine kadar sayıları ve telefon numarası söylemeyi,")),
     beat(show=T("o5", "•  DELF yazılı sınavı: [form doldurma|hl]", 140, 680, size=46),
          say=TR("ve DELF yazılı sınavının ilk alıştırması olan form doldurmayı öğreneceksin.")),
-    beat(show=[Badge("url", "Alıştırmalar ve test:  kolayfransızca.app", 140, 810, size=36, fill="gold", color="ink")],
+    beat(show=[Badge("url", "Alıştırmalar ve test:  kolayfransizca.app", 140, 810, size=36, fill="gold", color="ink")],
          say=TR("Bu dersin alıştırmaları, kelime testi ve modül testi ücretsiz olarak sitemizde seni bekliyor. Adresi ekranda görüyorsun."), pause=0.8),
 ]))
 
@@ -627,7 +627,7 @@ SCENES.append(scene("Kapanış", [
         T("r5", "•  DELF yazılı sınavı: form doldurma", 140, 640, size=44)],
          say=TR("Bugün yaşını söylemeyi ve avuar fiilini, soru sormayı, şehir ve ülkelerle doğru edatı, sıfırdan bine kadar sayıları "
                 "ve DELF yazılı sınavındaki form doldurmayı öğrendik."), pause=0.5),
-    beat(show=Badge("url", "Alıştırmalar, kelime testi ve modül testi:  kolayfransızca.app", 140, 760, size=34, fill="gold", color="ink"),
+    beat(show=Badge("url", "Alıştırmalar, kelime testi ve modül testi:  kolayfransizca.app", 140, 760, size=34, fill="gold", color="ink"),
          say=TR("Şimdi sıra alıştırmalarda. Sitemizde bu modülün alıştırmalarını, kelime testini, kendi kayıt formunu doldurma ödevini "
                 "ve DELF tarzı testi ücretsiz olarak bulabilirsin."), pause=0.5),
     beat(clear=True, show=[T("t1", "Bu kurs tamamen [ücretsiz|hl].", CX, 300, size=64, font="display", align="center"),
