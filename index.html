@@ -70,6 +70,7 @@ section{padding:56px 0;display:flex;flex-direction:column;gap:20px}
 .video{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:var(--ink);border:1px solid var(--line)}
 .video img{width:100%;height:100%;object-fit:cover;opacity:.55}
 .video .over{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff;padding:16px}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .video .play{width:66px;height:66px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;margin:0 auto 10px;font-size:24px}
 
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
@@ -145,8 +146,7 @@ footer small{display:block;margin-top:6px;color:#A9A5BF}
     <div class="ctas"><a class="btn main" href="/delf-a1/modul-1-selamlasma-tanisma/">Modül 1'e başla</a><a class="btn" href="#moduller">Modülleri gör</a></div>
   </div>
   <div class="video" id="tanitim">
-    <img src="/a1/img/m01/m01-hero.webp" alt="" onerror="this.remove()">
-    <div class="over"><div><div class="play" aria-hidden="true">▶</div><strong>Kursun tanıtım videosu</strong><p style="opacity:.8;font-size:14px">Yakında burada.</p></div></div>
+    <iframe src="https://www.youtube-nocookie.com/embed/L-ZhpchfYns?rel=0" title="00 – Kurs Tanıtımı: Sıfırdan Fransızca A1 (Ücretsiz) | DELF A1 Hazırlık" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 </div>
 
