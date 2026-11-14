@@ -148,6 +148,14 @@ table.mf th.m{background:var(--brand)}table.mf th.f{background:var(--no)}table.m
 .qr img{width:27mm;height:27mm}
 .qr > div > b{font-family:'Bricolage',sans-serif;font-size:11pt;color:var(--brand-dark);display:block;margin-bottom:1mm}
 .qr code{font-family:'Jakarta',sans-serif;font-weight:700;color:var(--brand);font-size:8.8pt}
+.nums{display:grid;grid-template-columns:repeat(7,1fr);gap:.8mm}
+.nums div{background:#fff;border:1px solid var(--line);border-radius:1.4mm;text-align:center;padding:.5mm 0;line-height:1.15}
+.nums b{display:block;font-family:'Bricolage',sans-serif;font-size:9.5pt;color:var(--brand-dark)}
+.nums span{font-size:6.8pt;color:var(--soft)}
+table.kv td{padding:.7mm 1.4mm;border-bottom:1px solid var(--line);font-size:8.8pt;vertical-align:top}
+table.kv tr:last-child td{border-bottom:0}
+table.kv td:first-child{font-weight:800;color:var(--brand);white-space:nowrap}
+.dense .voc .w{padding:.45mm 0}.dense .box{margin-bottom:2.6mm}
 /* couverture */
 .cover{background:linear-gradient(160deg,#5B4CC4 0%,#3F3396 62%,#2A2170 100%);color:#fff;padding:0}
 .cover .in{position:absolute;inset:0;padding:20mm 18mm}
@@ -202,12 +210,13 @@ def foot(m, p):
 def page_gram(m):
     goals = "".join(f"<li>{mk(g)}</li>" for g in m["goals"])
     blocks = "".join(m["grammar"])
-    phr = "".join(f"<div>{mk(f)}<i>{E(t)}</i></div>" for f, t in m["phrases"])
+    phr = "".join(f"<div>{mk(f)}<i>{E(t)}</i></div>" for f, t in m.get("phrases", []))
+    phr_box = f'<div class="box"><h2><span class="n">»</span>Diyalogdan anahtar cümleler</h2><div class="phr">{phr}</div></div>' if phr else ""
     return f"""
 <section class="page">{top(m)}
   <div class="box"><h2><span class="n">✓</span>Bu modülün sonunda…</h2><ul class="goals">{goals}</ul></div>
   {blocks}
-  <div class="box"><h2><span class="n">»</span>Diyalogdan anahtar cümleler</h2><div class="phr">{phr}</div></div>
+  {phr_box}
   {foot(m, 2)}
 </section>"""
 
@@ -220,7 +229,7 @@ def page_voc(m):
     d = m["delf"]
     delf = "".join(f"<li>{mk(x)}</li>" for x in d["points"])
     return f"""
-<section class="page">{top(m)}
+<section class="page{' dense' if len(must) + len(rec) > 38 else ''}">{top(m)}
   <div class="box"><span class="lab must">Mutlaka öğren · {len(must)} kelime</span>
     <div class="voc">{rows(must)}</div></div>
   <div class="box"><span class="lab rec">Öğrenmen tavsiye edilir · {len(rec)} kelime</span>
@@ -234,7 +243,7 @@ def page_voc(m):
         <div><b>Ders videosunu izle</b><span class="sm">Bu QR kod seni <b>Modül {m['num']}</b> ders videosuna (YouTube) götürür:</span><br><code>{E(m['video'].replace('https://', ''))}</code></div></div>
     </div>
   </div>
-  <p class="sm tr" style="margin-top:2.4mm">Okunuşlar yaklaşıktır: « ⁿ » genizden söylenen sesi gösterir. Doğru telaffuz için kelimeleri sitede sesli dinle.</p>
+  <p class="sm tr" style="margin-top:1.6mm">Okunuşlar yaklaşıktır: « ⁿ » genizden söylenen sesi gösterir. Doğru telaffuz için kelimeleri sitede sesli dinle.</p>
   {foot(m, 3)}
 </section>"""
 
