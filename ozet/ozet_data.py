@@ -237,3 +237,159 @@ MODULES[2] = dict(
         key_tr="Formda mutlaka tanıman gereken kelimeler",
     ),
 )
+
+
+M3_P1 = [
+    """<div class="box"><h2><span class="n">1</span>İyelik sıfatları: mon, ma, mes</h2>
+  <div class="grid2" style="grid-template-columns:1.25fr 1fr;align-items:start">
+  <table class="mf"><tr><th class="t"></th><th class="m">Eril tekil</th><th class="f">Dişil tekil</th><th class="t">Çoğul</th></tr>
+    <tr><td class="tr">benim</td><td><span class="hl">mon</span> père</td><td><span class="no">ma</span> mère</td><td><b>mes</b> parents</td></tr>
+    <tr><td class="tr">senin</td><td><span class="hl">ton</span> frère</td><td><span class="no">ta</span> sœur</td><td><b>tes</b> amis</td></tr>
+    <tr><td class="tr">onun</td><td><span class="hl">son</span> fils</td><td><span class="no">sa</span> fille</td><td><b>ses</b> enfants</td></tr>
+    <tr><td class="tr">bizim</td><td colspan="2"><b>notre</b> famille</td><td><b>nos</b> enfants</td></tr>
+    <tr><td class="tr">sizin</td><td colspan="2"><b>votre</b> nom</td><td><b>vos</b> parents</td></tr>
+    <tr><td class="tr">onların</td><td colspan="2"><b>leur</b> fille</td><td><b>leurs</b> enfants</td></tr></table>
+  <div class="sm">
+    <p><b>Sahip olunan şeye bakılır:</b> « père » eril → <b>mon</b> père; « mère » dişil → <b>ma</b> mère. Bir kadın da « mon père » der.</p>
+    <p style="margin-top:1.2mm"><b>Çoğulda tek biçim:</b> mes frères, mes sœurs.</p>
+    <p style="margin-top:1.2mm"><b>Sesli harften önce</b> ma → <b>mon</b>: mon amie, ton amie, son amie.</p>
+    <p style="margin-top:1.2mm"><b>son, sa, ses</b> = « onun »: sahibin erkek mi kadın mı olduğunu söylemez.</p></div></div></div>""",
+    """<div class="grid2">
+  <div class="box"><h2><span class="n">2</span>Eril, dişil, çoğul</h2>
+    <table class="mf"><tr><th class="m">Eril</th><th class="f">Dişil</th></tr>
+      <tr><td>le père</td><td>la mère</td></tr><tr><td>le frère</td><td>la sœur</td></tr>
+      <tr><td>le fils</td><td>la fille</td></tr><tr><td>le mari</td><td>la femme</td></tr>
+      <tr><td>le cousin</td><td>la cousine</td></tr><tr><td>l'ami</td><td>l'amie <span class="tr sm">(aynı okunur)</span></td></tr></table>
+    <p class="sm" style="margin-top:1.4mm">Çoğul: <b>les</b> + isim + <b>s</b> (s okunmaz): les frère<span class="mute">s</span>. Duyduğun fark « le / les ».<br>
+    les‿enfants [z] bağlanır · un œil → <b>les yeux</b> · saç hep çoğul: <b>les cheveux</b>.</p></div>
+  <div class="box"><h2><span class="n">3</span>Sıfat kişiye uyar</h2>
+    <table class="mf"><tr><th class="m">Erkek</th><th class="f">Kadın</th><th class="t">Kural</th></tr>
+      <tr><td>grand</td><td>grand<span class="no">e</span></td><td class="tr sm">sona « e »</td></tr>
+      <tr><td>âgé</td><td>âgé<span class="no">e</span></td><td class="tr sm">sona « e »</td></tr>
+      <tr><td>jeune</td><td>jeune</td><td class="tr sm">« e » ile biten değişmez</td></tr>
+      <tr><td>genti<span class="hl">l</span></td><td>genti<span class="no">lle</span></td><td class="tr sm">son harf ikilenir</td></tr>
+      <tr><td>sérieu<span class="hl">x</span></td><td>sérieu<span class="no">se</span></td><td class="tr sm">-eux → -euse</td></tr>
+      <tr><td>beau</td><td><span class="no">belle</span></td><td class="tr sm">düzensiz</td></tr></table>
+    <p class="sm" style="margin-top:1.4mm">Çoğulda sona <b>s</b>: Ils sont grand<span class="hl">s</span>. Elles sont petite<span class="hl">s</span>.</p></div>
+</div>""",
+    """<div class="box"><h2><span class="n">4</span>Sıfat nereye gelir?</h2>
+  <div class="grid2">
+    <div class="sm"><p>Çoğu sıfat <b>isimden sonra</b> gelir:</p>
+      <p><span class="fr">une femme <span class="hl">blonde</span></span> <span class="tr">sarışın bir kadın</span></p>
+      <p><span class="fr">un ami <span class="hl">sympathique</span></span> <span class="tr">sempatik bir arkadaş</span></p></div>
+    <div class="sm"><p>Kısa sıfatlar <b>önce</b> gelir: grand, petit, jeune, beau.</p>
+      <p><span class="fr">un <span class="hl">grand</span> frère</span> <span class="tr">ağabey</span> · <span class="fr">une <span class="hl">petite</span> sœur</span> <span class="tr">küçük kız kardeş</span></p>
+      <p><span class="fr">une <span class="hl">belle</span> photo</span> <span class="tr">güzel bir fotoğraf</span></p></div></div></div>""",
+]
+
+_TREE = """<div class="tree">
+  <div class="row"><div class="p m"><b>Mehmet</b><span>le grand-père</span></div><span class="plus">+</span><div class="p f"><b>Zeynep</b><span>la grand-mère</span></div></div>
+  <div class="row"><div class="p m"><b>Ahmet</b><span>le père</span></div><span class="plus">+</span><div class="p f"><b>Fatma</b><span>la mère</span></div><div class="p f"><b>Selma</b><span>la tante</span></div></div>
+  <div class="row"><div class="p me"><b>Emre</b><span>moi</span></div><div class="p f"><b>Elif</b><span>la sœur</span></div><div class="p m"><b>Deniz</b><span>le frère</span></div></div>
+</div>"""
+
+M3_P2 = [
+    """<div class="grid2">
+  <div class="box"><h2><span class="n">5</span>Qui est-ce ? Birini tanıtmak</h2>
+    <table class="kv">
+      <tr><td>Qui est-ce ?</td><td><span class="fr">C'est mon père.</span> <span class="tr sm">Bu kim? Bu benim babam.</span></td></tr>
+      <tr><td>c'est + 1 kişi</td><td><span class="fr">C'est ma sœur Elif.</span></td></tr>
+      <tr><td>ce sont + 2+ kişi</td><td><span class="fr">Ce sont mes parents.</span></td></tr>
+      <tr><td>voici / voilà</td><td><span class="fr">Voici mon mari.</span> <span class="tr sm">İşte eşim.</span></td></tr>
+      <tr><td>lui / elle</td><td><span class="fr">Lui, c'est mon frère.</span><br><span class="fr">Elle, c'est ma tante.</span></td></tr></table>
+    <p class="sm" style="margin-top:1.2mm">Kişiyi sormak: <b>Il / Elle est comment ?</b> <span class="tr">O nasıl biri?</span></p></div>
+  <div class="box"><h2><span class="n">6</span>être mi, avoir mı?</h2>
+    <p class="sm">Kişiyi anlatırken <b>être</b>:</p>
+    <p><span class="fr">Il <span class="hl">est</span> grand et brun.</span> <span class="tr sm">O uzun boylu ve esmer.</span></p>
+    <p><span class="fr">Elle <span class="hl">est</span> gentille.</span> <span class="tr sm">O iyi kalpli.</span></p>
+    <p class="sm" style="margin-top:1.4mm">Saç ve gözler için <b>avoir</b>:</p>
+    <p><span class="fr">Il <span class="ok">a</span> les cheveux bruns.</span> <span class="tr sm">Saçları kahverengi.</span></p>
+    <p><span class="fr">Elle <span class="ok">a</span> les yeux verts.</span> <span class="tr sm">Gözleri yeşil.</span></p>
+    <p class="sm" style="margin-top:1mm"><span class="mute">Il est les cheveux bruns.</span> <span class="no">Yanlış</span></p></div>
+</div>""",
+    """<div class="box"><h2><span class="n">7</span>Aile ağacı ve « de » (-nin)</h2>
+  <div class="grid2" style="grid-template-columns:1.1fr 1fr;align-items:center">""" + _TREE + """
+    <div class="sm">
+      <p><span class="fr">Ahmet est <span class="hl">le mari de</span> Fatma.</span><br><span class="tr">Ahmet, Fatma'nın kocası.</span></p>
+      <p style="margin-top:1.2mm"><span class="fr">Selma est la tante <span class="hl">d'</span>Emre.</span><br><span class="tr">Selma, Emre'nin halası. (sesli harften önce d')</span></p>
+      <p style="margin-top:1.2mm"><span class="fr">Emre et Elif sont frère et sœur.</span><br><span class="tr">Emre ve Elif kardeş.</span></p>
+      <p style="margin-top:1.2mm"><span class="fr">Ahmet et Fatma sont mariés.</span><br><span class="tr">Ahmet ve Fatma evli.</span></p>
+      <p style="margin-top:1.4mm">amca, dayı → <b>l'oncle</b> · hala, teyze → <b>la tante</b></p></div></div></div>""",
+    """<div class="grid2">
+  <div class="tip"><b>Öğretmenin tavsiyesi</b>Bir fotoğrafı anlatmak için iki soru yeter: « Qui est-ce ? » (Bu kim?) ve « Il / Elle est comment ? » (O nasıl biri?). Kendi aile fotoğraflarından birini aç ve her kişi için bu iki soruya Fransızca cevap ver.</div>
+  <div class="tip"><b>Öğretmenin tavsiyesi</b>« mon, ma, mes » sahip olana göre değil, sahip olunan şeye göre değişir. Kendine şu soruyu sor: « Bu isim eril mi, dişil mi? »</div>
+</div>""",
+]
+
+M3_TELAFFUZ = """<div class="box"><h3>Telaffuz: petit / petite</h3>
+  <p class="sm">Dişil « e » okunmaz ama önceki harfi okutur. Dişili sondaki sesten duyarsın:</p>
+  <p class="sm" style="margin-top:1mm">peti<span class="mute">t</span> → peti<span class="hl">t</span>e · gran<span class="mute">d</span> → gran<span class="hl">d</span>e · blon<span class="mute">d</span> → blon<span class="hl">d</span>e · sérieu<span class="mute">x</span> → sérieu<span class="hl">s</span>e</p>
+  <p class="sm" style="margin-top:1mm"><b>âgé / âgée</b> aynı okunur · <b>jeune</b> değişmez · <b>brun / brune</b>: erkekte genizden gelen ses var, kadında kaybolur ve n okunur · <b>beau / belle</b> [bo] / [bel].</p></div>"""
+
+MODULES[3] = dict(
+    num=3, title="Ailem ve çevremdeki insanlar", title_fr="Ma famille, les gens",
+    video="https://youtu.be/H2VOmLVxmAA",
+    goals=[
+        "Aile üyelerimi adlandırmak",
+        "« mon, ma, mes » iyelik sıfatlarını kullanmak",
+        "Eril / dişil, tekil / çoğul ayırt etmek",
+        "Sıfatı uyumlu yapmak ve doğru yere koymak",
+        "Bir kişinin görünüşünü ve karakterini anlatmak",
+        "« Qui est-ce ? C'est... » ile birini sormak, tanıtmak",
+        "İki kişi arasındaki ilişkiyi söylemek: le mari de Fatma",
+        "« lui » ve « elle » ile birini göstermek",
+        "Bir aileyi tanıtan kısa bir metni anlamak",
+        "Ailemi tanıtan 4-5 cümle yazmak",
+    ],
+    grammar_pages=[M3_P1, M3_P2],
+    phrases=[
+        ("C'est une photo de ta famille ?", "Bu senin ailenin fotoğrafı mı?"),
+        ("Et lui, qui est-ce ?", "Peki bu (erkek) kim?"),
+        ("Lui, c'est mon père. Il est grand et très gentil.", "O benim babam. Uzun boylu ve çok iyi kalpli."),
+        ("Voici ma mère : elle est petite et brune.", "İşte annem: kısa boylu ve esmer."),
+        ("Ce sont ma sœur Elif et mon frère Deniz.", "Bunlar kız kardeşim Elif ve erkek kardeşim Deniz."),
+        ("Ta sœur a quel âge ? Elle a vingt-six ans.", "Kız kardeşin kaç yaşında? Yirmi altı yaşında."),
+        ("Il est blond, comme ma tante.", "Halam gibi sarışın."),
+        ("Tu as une grande famille !", "Kalabalık bir ailen var!"),
+    ],
+    voc_must=[
+        ("la famille", "la famiy", "aile"), ("les parents", "le paraⁿ", "anne baba"),
+        ("le père", "lö per", "baba"), ("la mère", "la mer", "anne"),
+        ("le frère", "lö frer", "erkek kardeş"), ("la sœur", "la sör", "kız kardeş"),
+        ("le fils", "lö fis", "oğul"), ("la fille", "la fiy", "kız (evlat)"),
+        ("l'enfant", "laⁿfaⁿ", "çocuk"), ("le mari", "lö mari", "koca / eş"),
+        ("la femme", "la fam", "kadın / eş"), ("l'ami / l'amie", "lami", "arkadaş"),
+        ("grand / grande", "graⁿ / graⁿd", "uzun boylu / büyük"), ("petit / petite", "pöti / pötit", "kısa boylu / küçük"),
+        ("jeune", "jön", "genç"), ("âgé / âgée", "aje", "yaşlı"),
+        ("beau / belle", "bo / bel", "yakışıklı / güzel"), ("gentil / gentille", "jaⁿti / jaⁿtiy", "nazik / iyi kalpli"),
+        ("sympathique", "seⁿpatik", "sempatik"), ("les cheveux", "le şövö", "saç"),
+        ("les yeux", "le zyö", "gözler"), ("brun / brune", "bröⁿ / brün", "esmer / kumral"),
+        ("blond / blonde", "bloⁿ / bloⁿd", "sarışın"), ("mon, ma, mes", "moⁿ, ma, me", "benim"),
+        ("qui", "ki", "kim"), ("c'est", "se", "bu ...-dır"),
+        ("lui", "lüi", "o (erkek)"), ("elle", "el", "o (kadın)"),
+    ],
+    voc_rec=[
+        ("le grand-père", "lö graⁿ per", "dede"), ("la grand-mère", "la graⁿ mer", "büyükanne"),
+        ("l'oncle", "loⁿkl", "amca / dayı"), ("la tante", "la taⁿt", "hala / teyze"),
+        ("le cousin / la cousine", "kuzeⁿ / kuzin", "kuzen"), ("le voisin / la voisine", "vuazeⁿ / vuazin", "komşu"),
+        ("sérieux / sérieuse", "seryö / seryöz", "ciddi"), ("drôle", "drol", "komik"),
+        ("ensemble", "aⁿsaⁿbl", "birlikte"),
+    ],
+    telaffuz=M3_TELAFFUZ,
+    tips=[
+        "« la femme » hem « kadın » hem « eş », « la fille » hem « kız » hem « kız evlat » demektir. Anlamı cümleden çıkar: « Voici ma femme » = İşte eşim.",
+        "Her sıfatı iki haliyle öğren: listende hep « petit / petite » diye yaz.",
+    ],
+    delf=dict(
+        title="Okuduğunu anlama",
+        points=[
+            "Okuma sınavı 30 dakika, 25 puan. İlk metin çoğu zaman bir arkadaştan gelen kısa bir e-postadır.",
+            "Metinden önce soruları oku.",
+            "İsimlerin, sayıların ve yerlerin altını çiz.",
+            "Bilmediğin kelimede durma, anlamı tahmin et.",
+            "Her soruya cevap ver: yanlış cevap puan kaybettirmez.",
+        ],
+        key="Metin: « mon mari, Paul » → Soru: « Qui est Paul ? »",
+        key_tr="Cevap metinde aynı kelimelerle yazmayabilir.",
+    ),
+)

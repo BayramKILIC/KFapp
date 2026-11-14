@@ -156,6 +156,12 @@ table.kv td{padding:.7mm 1.4mm;border-bottom:1px solid var(--line);font-size:8.8
 table.kv tr:last-child td{border-bottom:0}
 table.kv td:first-child{font-weight:800;color:var(--brand);white-space:nowrap}
 .dense .voc .w{padding:.45mm 0}.dense .box{margin-bottom:2.6mm}
+.tree{display:flex;flex-direction:column;gap:2.4mm;align-items:center}
+.tree .row{display:flex;gap:1.6mm;align-items:center}
+.tree .p{background:#fff;border:1.4px solid var(--brand);border-radius:2mm;padding:1mm 2mm;text-align:center;line-height:1.15;min-width:19mm}
+.tree .p.f{border-color:var(--no)}.tree .p.me{border-color:var(--brand-dark);background:var(--tint);border-width:2px}
+.tree .p b{display:block;font-size:9pt}.tree .p span{font-size:7.2pt;color:var(--soft)}
+.tree .plus{font-weight:800;color:var(--soft)}
 /* couverture */
 .cover{background:linear-gradient(160deg,#5B4CC4 0%,#3F3396 62%,#2A2170 100%);color:#fff;padding:0}
 .cover .in{position:absolute;inset:0;padding:20mm 18mm}
@@ -203,25 +209,33 @@ def top(m):
     return f'<div class="top"><div class="brand">Kolay <span>Fransızca</span></div><div class="mtag">Modül {m["num"]} · {E(m["title"])}</div></div>'
 
 
-def foot(m, p):
-    return f'<div class="foot"><span><b>kolayfransizca.app</b> · DELF A1 Hazırlık · Modül {m["num"]} özet fişi</span><span>{p} / 3</span></div>'
+def foot(m, p, total):
+    return f'<div class="foot"><span><b>kolayfransizca.app</b> · DELF A1 Hazırlık · Modül {m["num"]} özet fişi</span><span>{p} / {total}</span></div>'
 
 
-def page_gram(m):
+def page_gram(m, blocks, p, total, first, last):
     goals = "".join(f"<li>{mk(g)}</li>" for g in m["goals"])
-    blocks = "".join(m["grammar"])
+    goals_box = f'<div class="box"><h2><span class="n">✓</span>Bu modülün sonunda…</h2><ul class="goals">{goals}</ul></div>' if first else ""
     phr = "".join(f"<div>{mk(f)}<i>{E(t)}</i></div>" for f, t in m.get("phrases", []))
-    phr_box = f'<div class="box"><h2><span class="n">»</span>Diyalogdan anahtar cümleler</h2><div class="phr">{phr}</div></div>' if phr else ""
+    phr_box = f'<div class="box"><h2><span class="n">»</span>Diyalogdan anahtar cümleler</h2><div class="phr">{phr}</div></div>' if (phr and last) else ""
     return f"""
 <section class="page">{top(m)}
-  <div class="box"><h2><span class="n">✓</span>Bu modülün sonunda…</h2><ul class="goals">{goals}</ul></div>
-  {blocks}
+  {goals_box}
+  {"".join(blocks)}
   {phr_box}
-  {foot(m, 2)}
+  {foot(m, p, total)}
 </section>"""
 
 
-def page_voc(m):
+def qr_block(m):
+    if m.get("video"):
+        return f"""<div class="qr"><img src="{qr_uri(m['video'])}" alt="QR">
+        <div><b>Ders videosunu izle</b><span class="sm">Bu QR kod seni <b>Modül {m['num']}</b> ders videosuna (YouTube) götürür:</span><br><code>{E(m['video'].replace('https://', ''))}</code></div></div>"""
+    return """<div class="qr" style="border-style:dashed"><div style="width:27mm;height:27mm;border:1.4px dashed #A9A3C4;border-radius:2mm;display:flex;align-items:center;justify-content:center;color:#A9A3C4;font-weight:800">QR</div>
+        <div><b>Ders videosunu izle</b><span class="sm">QR kod, video yayınlandığında eklenecek.</span></div></div>"""
+
+
+def page_voc(m, p, total):
     def rows(items):
         return "".join(f'<div class="w"><b>{E(w)}</b><span class="ok2">{E(o)}</span><span class="t">{E(t)}</span></div>' for w, o, t in items)
     must, rec = m["voc_must"], m["voc_rec"]
@@ -239,19 +253,28 @@ def page_voc(m):
     <div>
       <div class="delf"><h3>DELF köşesi · {E(d['title'])}</h3><ul>{delf}</ul><div class="key">{mk(d['key'])}<br><span class="tr sm">{E(d['key_tr'])}</span></div></div>
       <div style="height:3mm"></div>
-      <div class="qr"><img src="{qr_uri(m['video'])}" alt="QR">
-        <div><b>Ders videosunu izle</b><span class="sm">Bu QR kod seni <b>Modül {m['num']}</b> ders videosuna (YouTube) götürür:</span><br><code>{E(m['video'].replace('https://', ''))}</code></div></div>
+      {qr_block(m)}
     </div>
   </div>
   <p class="sm tr" style="margin-top:1.6mm">Okunuşlar yaklaşıktır: « ⁿ » genizden söylenen sesi gösterir. Doğru telaffuz için kelimeleri sitede sesli dinle.</p>
-  {foot(m, 3)}
+  {foot(m, p, total)}
 </section>"""
+
+
+def pages_html(m):
+    gp = m.get("grammar_pages") or [m["grammar"]]
+    total = 2 + len(gp)
+    out = [page_cover(m)]
+    for i, blocks in enumerate(gp):
+        out.append(page_gram(m, blocks, i + 2, total, i == 0, i == len(gp) - 1))
+    out.append(page_voc(m, total, total))
+    return "".join(out)
 
 
 def build(num):
     m = MODULES[num]
     doc = f"""<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"><title>Modül {num} özet fişi</title>
-<style>{font_css()}{CSS}</style></head><body>{page_cover(m)}{page_gram(m)}{page_voc(m)}</body></html>"""
+<style>{font_css()}{CSS}</style></head><body>{pages_html(m)}</body></html>"""
     out_html = HERE / "out" / f"m{num:02d}-ozet.html"
     out_html.parent.mkdir(exist_ok=True)
     out_html.write_text(doc, encoding="utf-8")
