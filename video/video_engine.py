@@ -127,7 +127,7 @@ def FR(text, voice="F1"):
     return {"fr": text, "voice": voice}
 
 
-def beat(show=None, hide=None, say=None, clear=False, pause=0.45, lead=0.25, wait=0.0, repeat=None):
+def beat(show=None, hide=None, say=None, clear=False, pause=0.45, lead=0.25, wait=0.0, repeat=None, bell=None):
     """
     show   : élément ou liste d'éléments (ajout ou remplacement par id)
     hide   : id ou liste d'ids à retirer
@@ -135,10 +135,12 @@ def beat(show=None, hide=None, say=None, clear=False, pause=0.45, lead=0.25, wai
     clear  : retire tout avant d'afficher
     wait   : durée minimale du beat (utile sans audio, ou pour un compte à rebours)
     repeat : facteur ; le beat dure alors facteur × durée de l'audio du beat précédent (pause « Tekrar et »)
+    bell   : petit son de cloche au début du beat. Un entier 0, 1, 2... = note de plus en plus aiguë
+             (crescendo pour une liste) ; "ok" = petit accord de fin de liste.
     """
     as_list = lambda v: [] if v is None else (v if isinstance(v, list) else [v])
     return dict(show=as_list(show), hide=as_list(hide), say=as_list(say), clear=clear,
-                pause=pause, lead=lead, wait=wait, repeat=repeat)
+                pause=pause, lead=lead, wait=wait, repeat=repeat, bell=bell)
 
 
 def scene(title, beats):
@@ -513,7 +515,7 @@ class AudioBank:
 
     def tts(self, text, code, lang):
         settings = TR_SETTINGS if lang == "tr" else FR_SETTINGS
-        sent = text if lang == "tr" else FR_PREFIX + text + FR_SUFFIX
+        sent = tr_accents(text) if lang == "tr" else FR_PREFIX + text + FR_SUFFIX
         h = hashlib.sha1(json.dumps([code, VOICES[code].get("id") or VOICES[code]["name"], MODEL_ID, settings, sent, lang],
                                     ensure_ascii=False).encode()).hexdigest()[:16]
         out = CACHE / "tts" / f"{lang}-{code}-{h}.mp3"
@@ -569,8 +571,57 @@ class AudioBank:
 # =============================================================================
 # CONSTRUCTION
 # =============================================================================
+def tr_accents(text):
+    """Narration turque : un passage français écrit entre « » est lu avec l'accent français.
+    « mon père » devient « [French accent] mon père [Turkish accent] » (balises comprises par eleven_v4)."""
+    return re.sub(r"«\s*(.+?)\s*»", r"[French accent] \1 [Turkish accent]", text)
+
+
 def silence(sec):
     return b"\x00\x00" * int(round(sec * SR))
+
+
+# Cloches discrètes : gamme pentatonique (do, ré, mi, sol, la, do), synthèse simple, volume bas sous la voix.
+BELL_NOTES = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66, 1318.51]
+BELL_GAIN = 0.22
+_bell_cache = {}
+
+
+def bell_samples(kind):
+    """Renvoie une liste d'échantillons (float -1..1) pour un son de cloche."""
+    if kind in _bell_cache:
+        return _bell_cache[kind]
+    if kind == "ok":
+        freqs, gain = [BELL_NOTES[0] * 2, BELL_NOTES[2] * 2, BELL_NOTES[3] * 2], BELL_GAIN * 0.8
+    else:
+        k = max(0, min(int(kind), len(BELL_NOTES) - 1))
+        freqs, gain = [BELL_NOTES[k]], BELL_GAIN * (0.75 + 0.06 * k)
+    n = int(1.1 * SR)
+    out = []
+    for i in range(n):
+        t = i / SR
+        env = min(1.0, t / 0.004) * math.exp(-t * 4.5)
+        v = 0.0
+        for f in freqs:
+            v += math.sin(2 * math.pi * f * t) + 0.35 * math.sin(2 * math.pi * f * 2.0 * t) * math.exp(-t * 6) \
+                 + 0.12 * math.sin(2 * math.pi * f * 3.01 * t) * math.exp(-t * 9)
+        out.append(gain * env * v / (len(freqs) * 1.47))
+    _bell_cache[kind] = out
+    return out
+
+
+def mix_bells(audio, bells):
+    """Ajoute les cloches (position en échantillons, type) au flux audio 16 bits."""
+    import array
+    pcm = array.array("h")
+    pcm.frombytes(bytes(audio))
+    for pos, kind in bells:
+        for i, v in enumerate(bell_samples(kind)):
+            j = pos + i
+            if j >= len(pcm):
+                break
+            pcm[j] = max(-32768, min(32767, pcm[j] + int(v * 32767)))
+    return bytearray(pcm.tobytes())
 
 
 def build(module_file, draft=False, scenes_sel=None):
@@ -590,6 +641,7 @@ def build(module_file, draft=False, scenes_sel=None):
     bank = AudioBank(draft)
     rnd = Renderer(MODULE)
     audio = bytearray()
+    bells = []             # (position en échantillons, type de cloche)
     frames = []            # (chemin image, durée)
     chapters = []
     t = 0.0
@@ -624,6 +676,8 @@ def build(module_file, draft=False, scenes_sel=None):
             first = False
 
             # --- son du beat
+            if b.get("bell") is not None:
+                bells.append((len(audio) // 2 + int(TRANS * SR * 0.5), b["bell"]))
             clip = bytearray(silence(b["lead"] if b["say"] else 0))
             spoken = 0.0
             for k, u in enumerate(b["say"]):
@@ -664,6 +718,8 @@ def build(module_file, draft=False, scenes_sel=None):
     print()
 
     # --- écriture
+    if bells:
+        audio = mix_bells(audio, bells)
     wav_path = work / "audio.wav"
     with wave.open(str(wav_path), "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
