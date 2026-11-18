@@ -393,3 +393,177 @@ MODULES[3] = dict(
         key_tr="Cevap metinde aynı kelimelerle yazmayabilir.",
     ),
 )
+
+
+M4_P1 = [
+    """<div class="grid2" style="grid-template-columns:1fr 1.15fr">
+  <div class="box"><h2><span class="n">1</span>-er fiilleri: şimdiki zaman</h2>
+    <table class="conj">
+      <tr><td>j'</td><td>aim<span class="no">e</span></td><td class="tr sm">severim</td></tr>
+      <tr><td>tu</td><td>aim<span class="no">es</span></td><td class="tr sm">seversin</td></tr>
+      <tr><td>il / elle</td><td>aim<span class="no">e</span></td><td class="tr sm">sever</td></tr>
+      <tr><td>nous</td><td>aim<span class="hl">ons</span></td><td class="tr sm">severiz</td></tr>
+      <tr><td>vous</td><td>aim<span class="hl">ez</span></td><td class="tr sm">seversiniz</td></tr>
+      <tr><td>ils / elles</td><td>aim<span class="no">ent</span></td><td class="tr sm">severler</td></tr></table>
+    <p class="sm" style="margin-top:1.4mm">-er atılır, son ek eklenir: aimer, regarder, jouer, parler, habiter…</p></div>
+  <div class="box"><h2><span class="n">2</span>Dört biçim, tek ses</h2>
+    <p class="sm">Kırmızı son ekler (<span class="no">-e, -es, -e, -ent</span>) <b>okunmaz</b>: j'aime, tu aimes, il aime, ils aiment aynı okunur [em]. Sadece <span class="hl">-ons</span> ve <span class="hl">-ez</span> duyulur.</p>
+    <p class="sm" style="margin-top:1.2mm">Sesli harfle başlayan fiilde bağlama: nous‿aimons, ils‿aiment [z].</p>
+    <p class="sm" style="margin-top:1.2mm">Sesli harften önce je → <b>j'</b>: j'aime, j'adore, j'habite.</p>
+    <p class="sm" style="margin-top:1.2mm"><b>préférer</b>: je préf<span class="hl">è</span>re, tu préf<span class="hl">è</span>res, ils préf<span class="hl">è</span>rent · nous préf<span class="hl">é</span>rons, vous préf<span class="hl">é</span>rez.</p>
+    <p class="sm" style="margin-top:1.2mm">İki fiil yan yana: ikincisi çekilmez. <span class="fr">J'aime cuisiner.</span> <span class="tr">Yemek yapmayı severim.</span></p>
+    <p class="sm" style="margin-top:1.2mm">Düzensiz, ezberle: <b>je fais, tu fais</b> (yapmak) · <b>je lis, tu lis</b> (okumak).</p></div>
+</div>""",
+    """<div class="box"><h2><span class="n">3</span>Zevklerini söylemek: sevgiden nefrete</h2>
+  <div class="grid2" style="grid-template-columns:1.2fr 1fr;align-items:start">
+  <table class="kv">
+    <tr><td><span class="ok">❤❤</span> adorer</td><td><span class="fr">J'adore la lecture.</span> <span class="tr sm">Okumaya bayılırım.</span></td></tr>
+    <tr><td><span class="ok">❤</span> aimer beaucoup</td><td><span class="fr">J'aime beaucoup le vélo.</span> <span class="tr sm">Bisikleti çok severim.</span></td></tr>
+    <tr><td><span class="ok">❤</span> aimer</td><td><span class="fr">J'aime le cinéma.</span> <span class="tr sm">Sinemayı severim.</span></td></tr>
+    <tr><td>~ aimer un peu</td><td><span class="fr">J'aime un peu le football.</span> <span class="tr sm">Futbolu biraz severim.</span></td></tr>
+    <tr><td><span class="no">✗</span> ne pas aimer</td><td><span class="fr">Je n'aime pas la natation.</span> <span class="tr sm">Yüzmeyi sevmem.</span></td></tr>
+    <tr><td><span class="no">✗✗</span> détester</td><td><span class="fr">Je déteste la télévision.</span> <span class="tr sm">Televizyondan nefret ederim.</span></td></tr></table>
+  <div class="sm">
+    <p>Arkasından <b>isim</b> ya da <b>çekilmemiş fiil</b> gelir:</p>
+    <p style="margin-top:1mm"><span class="fr">J'aime le sport.</span> <span class="tr">Sporu severim.</span></p>
+    <p><span class="fr">Je préfère lire.</span> <span class="tr">Okumayı tercih ederim.</span></p>
+    <p style="margin-top:1.4mm">Bu fiillerden sonra hep <b>belirli tanımlık</b>: <span class="ok">J'aime le sport</span>, <span class="mute">J'aime un sport</span>.</p></div></div></div>""",
+]
+
+M4_P2 = [
+    """<div class="grid2" style="grid-template-columns:1.15fr 1fr">
+  <div class="box"><h2><span class="n">4</span>Belirli ve belirsiz: le / un</h2>
+    <table class="mf"><tr><th class="t"></th><th class="m">Eril</th><th class="f">Dişil</th><th class="t">Çoğul</th></tr>
+      <tr><td class="tr sm">belirli<br>(genel, bilinen)</td><td><span class="hl">le</span> sport</td><td><span class="no">la</span> lecture</td><td><b>les</b> films</td></tr>
+      <tr><td class="tr sm">belirsiz<br>(bir, birkaç)</td><td><span class="hl">un</span> livre</td><td><span class="no">une</span> photo</td><td><b>des</b> amis</td></tr></table>
+    <p class="sm" style="margin-top:1.4mm"><span class="fr">J'aime les films.</span> <span class="tr">Filmleri severim. (genel olarak)</span><br>
+    <span class="fr">Je regarde un film.</span> <span class="tr">Bir film izliyorum. (herhangi bir film)</span></p>
+    <p class="sm" style="margin-top:1.2mm">Sesli harften önce le / la → <b>l'</b>: l'ami, l'école.</p></div>
+  <div class="box"><h2><span class="n">5</span>Hobiler: faire du / jouer au</h2>
+    <table class="kv">
+      <tr><td>faire du</td><td><span class="fr">Je fais du sport, du vélo.</span><br><span class="tr sm">Spor yaparım, bisiklete binerim.</span></td></tr>
+      <tr><td>faire de la</td><td><span class="fr">Je fais de la natation.</span><br><span class="tr sm">Yüzme yaparım. (dişil isim)</span></td></tr>
+      <tr><td>jouer au</td><td><span class="fr">Je joue au football.</span><br><span class="tr sm">Futbol oynarım. (oyunlar, top sporları)</span></td></tr>
+      <tr><td>jouer aux</td><td><span class="fr">Je joue aux jeux vidéo.</span><br><span class="tr sm">Video oyunları oynarım.</span></td></tr></table>
+    <p class="sm" style="margin-top:1.2mm">de + le = <b>du</b> · à + le = <b>au</b> · à + les = <b>aux</b></p></div>
+</div>""",
+    """<div class="box"><h2><span class="n">6</span>Olumsuz cümle: ne... pas, ne... jamais</h2>
+  <div class="grid2" style="align-items:start">
+    <div class="sm"><p>Fransızcada olumsuzluk iki parçadır ve fiili sandviç gibi sarar:</p>
+      <p style="margin-top:1.2mm"><span class="fr">Je <span class="no">ne</span> regarde <span class="no">pas</span> la télévision.</span><br><span class="tr">Televizyon izlemem.</span></p>
+      <p style="margin-top:1.2mm"><span class="fr">Je <span class="no">n'</span>aime <span class="no">pas</span> le football.</span><br><span class="tr">Futbolu sevmem. (sesli harften önce n')</span></p></div>
+    <div class="sm"><p><b>jamais</b> = hiçbir zaman, hiç:</p>
+      <p style="margin-top:1.2mm"><span class="fr">Je <span class="no">ne</span> nage <span class="no">jamais</span>.</span> <span class="tr">Hiç yüzmem.</span></p>
+      <p style="margin-top:1.2mm"><span class="fr">Tu regardes la télévision ? Non, jamais.</span><br><span class="tr">Televizyon izler misin? Hayır, hiç.</span></p>
+      <p style="margin-top:1.4mm">Konuşmada « ne » düşebilir (<span class="mute">J'aime pas</span>), ama sınavda ikisini de yaz.</p></div></div></div>""",
+    """<div class="box"><h2><span class="n">7</span>Soru sormanın üç yolu</h2>
+  <table class="kv">
+    <tr><td>1. Tonlama <span class="tr sm">(günlük)</span></td><td><span class="fr">Tu aimes le sport ? ↗</span> <span class="tr sm">Cümle aynı kalır, ses sonda yükselir.</span></td></tr>
+    <tr><td>2. Est-ce que <span class="tr sm">(en net)</span></td><td><span class="fr"><span class="hl">Est-ce que</span> tu aimes le sport ?</span> <span class="tr sm">[eskö] · sesli harften önce est-ce qu'il…</span></td></tr>
+    <tr><td>3. Devrik yapı <span class="tr sm">(resmi)</span></td><td><span class="fr">Aimes-tu le sport ?</span> <span class="tr sm">Tanıman yeterli.</span></td></tr></table>
+  <p class="sm" style="margin-top:1.4mm"><span class="fr">Qu'est-ce que tu fais le week-end ?</span> <span class="tr">Hafta sonu ne yapıyorsun?</span> ·
+  <span class="fr">Pourquoi ? Parce que c'est intéressant.</span> <span class="tr">Neden? Çünkü ilginç.</span></p></div>""",
+]
+
+M4_P3 = [
+    """<div class="grid2">
+  <div class="box"><h2><span class="n">8</span>Bağlaçlar</h2>
+    <table class="kv">
+      <tr><td>et <span class="tr sm">ve</span></td><td><span class="fr">J'aime le sport <span class="hl">et</span> la lecture.</span></td></tr>
+      <tr><td>ou <span class="tr sm">veya, mı… mı</span></td><td><span class="fr">Le vélo <span class="hl">ou</span> la marche ?</span></td></tr>
+      <tr><td>mais <span class="tr sm">ama</span></td><td><span class="fr">J'aime le thé, <span class="hl">mais</span> je n'aime pas le café.</span></td></tr>
+      <tr><td>alors <span class="tr sm">o hâlde</span></td><td><span class="fr"><span class="hl">Alors</span>, tu regardes les matchs !</span></td></tr>
+      <tr><td>parce que <span class="tr sm">çünkü</span></td><td><span class="fr">J'aime la mer <span class="hl">parce que</span> c'est calme.</span></td></tr></table>
+    <p class="sm" style="margin-top:1.2mm">« parce que » + tam cümle · sesli harften önce <b>parce qu'</b>il…</p></div>
+  <div class="box"><h2><span class="n">9</span>très, trop, beaucoup, un peu</h2>
+    <p class="sm">Sıfattan önce: <b>très</b> (çok, olumlu), <b>trop</b> (fazla, sorun var)</p>
+    <p><span class="fr">C'est <span class="ok">très</span> intéressant.</span> <span class="tr sm">Çok ilginç.</span></p>
+    <p><span class="fr">C'est <span class="no">trop</span> difficile.</span> <span class="tr sm">Fazla zor.</span></p>
+    <p class="sm" style="margin-top:1.4mm">Fiilden sonra: <b>beaucoup</b>, <b>un peu</b></p>
+    <p><span class="fr">J'aime <span class="hl">beaucoup</span> le football.</span> <span class="tr sm">Futbolu çok severim.</span></p>
+    <p><span class="fr">Je parle <span class="hl">un peu</span> français.</span> <span class="tr sm">Biraz Fransızca konuşurum.</span></p>
+    <p class="sm" style="margin-top:1mm"><span class="mute">J'aime très le football.</span> <span class="no">Yanlış</span></p></div>
+</div>""",
+    """<div class="box"><h2><span class="n">10</span>Katılıyorum, katılmıyorum</h2>
+  <div class="grid2" style="align-items:start">
+    <div class="sm"><p><span class="fr">Je suis d'accord.</span> <span class="tr">Katılıyorum.</span></p>
+      <p><span class="fr">Je ne suis pas d'accord.</span> <span class="tr">Katılmıyorum.</span></p>
+      <p><span class="fr">D'accord !</span> <span class="tr">Tamam! (bir öneriyi kabul etmek)</span></p></div>
+    <div class="sm"><p><span class="fr">J'aime le cinéma. <span class="ok">Moi aussi !</span></span> <span class="tr">Ben de!</span></p>
+      <p><span class="fr">Je n'aime pas la télé. <span class="ok">Moi non plus.</span></span> <span class="tr">Ben de (sevmem).</span></p>
+      <p style="margin-top:1mm">Olumlu cümleye <b>moi aussi</b>, olumsuz cümleye <b>moi non plus</b>.</p></div></div></div>""",
+    """<div class="grid2">
+  <div class="tip"><b>Öğretmenin tavsiyesi</b>« Qu'est-ce que tu fais le week-end ? » birini tanımak için en çok sorulan sorulardan biridir. Kendi cevabını şimdiden hazırla: « Le week-end, je... »</div>
+  <div class="tip"><b>Öğretmenin tavsiyesi</b>Soru sormanın en kolay yolu cümlenin sonunda sesini yükseltmektir. « Est-ce que » ile başlamak daha nettir: sınavda bu iki yol yeter.</div>
+</div>""",
+]
+
+M4_TELAFFUZ = """<div class="box"><h3>Telaffuz: sorunun tonlaması</h3>
+  <p class="sm">Yazıda aynı cümle, sesle soru olur: <span class="fr">Tu aimes le sport.</span> ↘ / <span class="fr">Tu aimes le sport ?</span> ↗ Türkçedeki « mı » ekinin işini ses yapar.</p>
+  <p class="sm" style="margin-top:1mm"><b>est-ce que</b> tek kelime gibi okunur: [eskö].</p>
+  <p class="sm" style="margin-top:1mm">aim<span class="mute">e</span>, aim<span class="mute">es</span>, aim<span class="mute">ent</span> aynı okunur; aim<span class="hl">ons</span>, aim<span class="hl">ez</span> duyulur.</p></div>"""
+
+MODULES[4] = dict(
+    num=4, title="Sevdiklerim ve hobilerim", title_fr="Mes goûts",
+    video="https://youtu.be/tXGcDb-_H3Y",
+    goals=[
+        "Sevdiğim ve sevmediğim şeyleri söylemek",
+        "-er ile biten fiilleri şimdiki zamanda çekmek",
+        "« ne... pas » ve « ne... jamais » ile olumsuz cümle kurmak",
+        "Belirli ve belirsiz tanımlık arasında seçim yapmak: le / un",
+        "« est-ce que » ile veya tonlamayla soru sormak",
+        "« et, ou, mais, alors, parce que » ile cümleleri bağlamak",
+        "« très, trop, beaucoup » ile derecelendirmek",
+        "Hobilerimden ve sporlarımdan bahsetmek",
+        "Katılıp katılmadığımı söylemek",
+    ],
+    grammar_pages=[M4_P1, M4_P2, M4_P3],
+    phrases=[
+        ("Qu'est-ce que tu fais le week-end ?", "Hafta sonu ne yapıyorsun?"),
+        ("Le samedi, je joue au football avec des amis.", "Cumartesi günleri arkadaşlarla futbol oynuyorum."),
+        ("Moi, je n'aime pas le football. C'est trop fatigant !", "Ben futbolu sevmem. Fazla yorucu!"),
+        ("Est-ce que tu fais du sport ?", "Spor yapar mısın?"),
+        ("Moi, je ne nage jamais. Je préfère le vélo.", "Ben hiç yüzmem. Bisikleti tercih ederim."),
+        ("J'aime le cinéma. Moi aussi !", "Sinemayı severim. Ben de!"),
+        ("Je ne suis pas d'accord.", "Katılmıyorum."),
+        ("Ils sont très intéressants, parce que les histoires sont belles.", "Çok ilginçler, çünkü hikâyeleri güzel."),
+    ],
+    voc_must=[
+        ("aimer", "eme", "sevmek"), ("adorer", "adore", "bayılmak"),
+        ("détester", "deteste", "nefret etmek"), ("préférer", "prefere", "tercih etmek"),
+        ("le sport", "lö spor", "spor"), ("le football", "lö futbol", "futbol"),
+        ("la lecture", "la lektür", "okuma"), ("le livre", "lö livr", "kitap"),
+        ("le cinéma", "lö sinema", "sinema"), ("le film", "lö film", "film"),
+        ("la télévision", "la televizyoⁿ", "televizyon"), ("cuisiner", "küizine", "yemek yapmak"),
+        ("le voyage", "lö vuayaj", "seyahat"), ("jouer", "jue", "oynamak"),
+        ("regarder", "rögarde", "izlemek / bakmak"), ("lire", "lir", "okumak"),
+        ("le week-end", "lö uikend", "hafta sonu"), ("beaucoup", "boku", "çok"),
+        ("un peu", "öⁿ pö", "biraz"), ("très", "tre", "çok"),
+        ("trop", "tro", "fazla / aşırı"), ("mais", "me", "ama"),
+        ("parce que", "parskö", "çünkü"), ("d'accord", "dakor", "tamam / katılıyorum"),
+        ("souvent", "suvaⁿ", "sık sık"), ("jamais", "jame", "asla / hiç"),
+    ],
+    voc_rec=[
+        ("la natation", "la natasyoⁿ", "yüzme"), ("la marche", "la marş", "yürüyüş"),
+        ("le vélo", "lö velo", "bisiklet"), ("le jardin", "lö jardeⁿ", "bahçe"),
+        ("la promenade", "la promnad", "gezinti"), ("les jeux vidéo", "le jö video", "video oyunları"),
+        ("la photo", "la foto", "fotoğraf"), ("le dessin", "lö deseⁿ", "resim çizme"),
+        ("nager", "naje", "yüzmek"), ("marcher", "marşe", "yürümek"),
+        ("le temps libre", "lö taⁿ libr", "boş zaman"), ("intéressant / intéressante", "eⁿteresaⁿ(t)", "ilginç"),
+    ],
+    telaffuz=M4_TELAFFUZ,
+    tips=[
+        "« trop » her zaman bir sorun olduğunu söyler: « Le film est trop long ». Bir şeyi övmek için « très » kullan: « Le film est très beau ».",
+    ],
+    delf=dict(
+        title="Sözlü sınav, 2. bölüm",
+        points=[
+            "2. bölümde (yaklaşık 2 dk) soruları sen sorarsın. Görevli kartlar koyar: « Sport ? », « Week-end ? ».",
+            "Görevliye [vous|hl] ile hitap et ve karttaki kelimeyi sorunda kullan.",
+            "Emin olmak için « est-ce que » ile başla. Doğru ve net bir soru yeter.",
+            "Takılırsan sessiz kalma: « Vous aimez... ? » gibi basit bir kalıpla dene.",
+        ],
+        key="Kart: « Sport ? » → Est-ce que vous aimez le sport ?",
+        key_tr="Kartın kelimesi sorunun içinde olmalı",
+    ),
+)
