@@ -52,6 +52,9 @@ html{scroll-padding-top:96px}
 .topbar img{width:44px;height:44px;border-radius:10px;display:block}
 .topbar .name{font-family:var(--display);font-weight:700;font-size:21px;margin-right:auto;white-space:nowrap}
 .topbar .name span{color:var(--gold)}
+.topbar .mnav{display:none;gap:12px;font-size:14px;font-weight:700;white-space:nowrap}
+@media (max-width:900px){.topbar .mnav{display:flex}.topbar nav:not(.mnav),.topbar .top-in .where{display:none}.topbar .top-in{gap:10px;padding:10px 16px}}
+@media (max-width:380px){.topbar .name{font-size:16px}.topbar .mnav{gap:10px;font-size:13px}}
 .ruler{height:14px;position:relative;background:var(--brand-tint) repeating-linear-gradient(to right,var(--brand) 0,var(--brand) 2px,transparent 2px,transparent 12px)}
 .ruler i{position:absolute;inset:0 auto 0 0;width:0;background:var(--gold) repeating-linear-gradient(to right,#fff 0,#fff 2px,transparent 2px,transparent 12px)}
 .topbar .where{font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px;text-align:right}
@@ -290,6 +293,7 @@ table.poss tr.sub td:not(:first-child){opacity:.85}
     <a href="/" aria-hidden="true" tabindex="-1"><img src="/a1/img/logo-96.jpg" alt="" width="44" height="44"></a>
     <a class="name" href="/">Kolay <span>Fransızca</span></a>
     <a class="where" href="/"><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span> DELF A1 Hazırlık · Modül 3 / 12</a>
+    <nav class="mnav" aria-label="Mobil menü"><a href="/#moduller">A1 Dersler</a><a href="https://www.youtube.com/playlist?list=PLGwLmVy_Aznc" target="_blank" rel="noopener">YouTube</a></nav>
   </div>
   <div class="ruler" aria-hidden="true"><i></i></div>
 </header>
