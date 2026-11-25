@@ -415,7 +415,7 @@ _M5_REC = [
 ]
 
 FIS[5] = dict(
-    title="Günlük hayatım", title_fr="Ma journée", video=None,
+    title="Günlük hayatım", title_fr="Ma journée", video="https://youtu.be/-I9Je0uWmOw",
     sections=[
         dict(kind="dialogue", title="Diyalog", small="Pazartesi sabahı, merdivende",
              lines=[
