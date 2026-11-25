@@ -505,7 +505,7 @@ M4_TELAFFUZ = """<div class="box"><h3>Telaffuz: sorunun tonlaması</h3>
 
 MODULES[4] = dict(
     num=4, title="Sevdiklerim ve hobilerim", title_fr="Mes goûts",
-    video="https://youtu.be/tXGcDb-_H3Y",
+    video="https://youtu.be/ze_QS1Tl7M4",
     goals=[
         "Sevdiğim ve sevmediğim şeyleri söylemek",
         "-er ile biten fiilleri şimdiki zamanda çekmek",

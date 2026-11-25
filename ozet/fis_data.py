@@ -299,7 +299,7 @@ FIS[3] = dict(
 )
 
 FIS[4] = dict(
-    title="Sevdiklerim ve hobilerim", title_fr="Mes goûts", video="https://youtu.be/tXGcDb-_H3Y",
+    title="Sevdiklerim ve hobilerim", title_fr="Mes goûts", video="https://youtu.be/ze_QS1Tl7M4",
     sections=[
         dict(kind="dialogue", title="Diyalog", small="Hafta sonu ne yapıyorsun?",
              lines=[
