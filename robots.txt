@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /indir.html
+
+Sitemap: https://www.kolayfransizca.app/sitemap.xml
