@@ -286,6 +286,60 @@ table.qw .ex{border:0;padding:3px 0}
 .form .fe{font-size:12px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--no)}
 .form .score{grid-column:1/-1}
 .ex .mute{color:#9C96B5;text-decoration:line-through;text-decoration-thickness:2px}
+/* UX-CSS-DEBUT */
+/* --- UX : sections repliables, barre mobile, reprise, audio en cours --- */
+.say.playing{background:var(--brand);border-color:var(--brand);color:#fff;animation:sayp 1s ease-in-out infinite}
+@keyframes sayp{50%{box-shadow:0 0 0 5px var(--brand-tint)}}
+.fold-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.fold-top b{font-size:15px;color:var(--ink-soft)}
+.fold{display:flex;flex-direction:column;gap:14px;border-top:2px solid var(--line);padding-top:16px}
+.fold-h{display:flex;align-items:flex-start;gap:10px}
+.fold-h h2{margin:0!important;flex:1}
+.fold-n{flex:none;margin-top:6px;font-size:12px;font-weight:700;color:var(--brand-dark);background:var(--brand-tint);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.fold.read .fold-n{background:var(--ok-tint);color:var(--ok)}
+.fold.read .fold-n::before{content:"✓ "}
+.fold-b{display:flex;flex-direction:column;gap:18px;position:relative}
+.fold:not(.open) .fold-b{max-height:190px;overflow:hidden}
+.fold:not(.open) .fold-b::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(to bottom,rgba(255,255,255,0),var(--paper) 85%);pointer-events:none}
+.fold-more{width:100%;border:2px solid var(--brand);background:var(--brand);color:#fff;border-radius:12px;padding:13px 16px;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.fold-more small{font-weight:500;opacity:.85;font-size:13px}
+.fold.open .fold-more{background:transparent;color:var(--brand-dark);border:1px solid var(--line);font-weight:600;font-size:14px;padding:9px 14px}
+.resume{display:flex;align-items:center;gap:10px;background:var(--brand-tint);border:1px solid var(--brand);border-radius:var(--r);padding:10px 12px}
+.resume a{flex:1;color:var(--brand-dark);font-weight:700;text-decoration:none}
+.resume a small{display:block;font-weight:500;color:var(--ink-soft);font-size:13px}
+.resume button{flex:none;border:0;background:transparent;font-size:18px;color:var(--ink-soft);width:36px;height:36px;cursor:pointer}
+.last-score{background:var(--ok-tint);color:var(--ok);border-radius:12px;padding:10px 14px;font-weight:600}
+.mbar,.msheet,.mshade{display:none}
+@media (max-width:860px){
+  section{scroll-margin-top:calc(var(--mtop,70px) + 58px)}
+  .mbar{display:block;position:fixed;left:0;right:0;top:var(--mtop,70px);z-index:19;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 4px 14px rgba(29,26,51,.08);transform:translateY(-110%);transition:transform .2s;visibility:hidden}
+  .mbar.on{transform:none;visibility:visible}
+  .mbar button{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:11px 16px;font:inherit;color:var(--ink);text-align:left;cursor:pointer}
+  .mbar .cur{flex:1;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mbar .cur small{font-weight:500;color:var(--ink-soft);margin-right:6px}
+  .mbar .all{flex:none;font-size:13px;font-weight:700;color:var(--brand-dark);background:var(--brand-tint);border-radius:999px;padding:5px 12px}
+  .mbar .ln{height:3px;background:var(--brand-tint)}
+  .mbar .ln i{display:block;height:100%;width:0;background:var(--brand)}
+  .mshade.on{display:block;position:fixed;inset:0;z-index:17;background:rgba(29,26,51,.35)}
+  .msheet.on{display:block;position:fixed;left:0;right:0;top:calc(var(--mtop,70px) + 47px);z-index:18;background:var(--card);border-bottom:1px solid var(--line);border-radius:0 0 16px 16px;max-height:66vh;overflow:auto;padding:8px 10px 14px;box-shadow:0 14px 30px rgba(29,26,51,.18)}
+  .msheet .mp{padding:8px 10px 10px;font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--line);margin-bottom:6px}
+  .msheet a{display:flex;align-items:center;gap:10px;padding:11px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:16px}
+  .msheet a.now{background:var(--brand-tint);color:var(--brand-dark)}
+  .msheet a .dot{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:11px;color:#fff}
+  .msheet a.done .dot{background:var(--ok);border-color:var(--ok)}
+  .msheet a.done .dot::after{content:"✓"}
+}
+@media (prefers-reduced-motion:reduce){.say.playing{animation:none}.mbar{transition:none}}
+.after-pass{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.after-pass a{display:inline-flex;align-items:center;gap:6px;border-radius:12px;padding:12px 16px;font-weight:700;text-decoration:none;border:2px solid var(--brand);color:var(--brand-dark);background:var(--card)}
+.after-pass a.go{background:var(--brand);color:#fff}
+.goals-more{display:none}
+@media (max-width:860px){
+  .goals.short li.g-more{display:none}
+  .goals-more{display:flex}
+}
+
+/* UX-CSS-FIN */
 </style>
 </head>
 <body>
@@ -1030,6 +1084,163 @@ drawG();wireSay();
 (function(){var bar=document.querySelector(".ruler i");if(!bar)return;
 var tick=function(){var h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?Math.min(100,window.scrollY/h*100):0)+"%";};
 window.addEventListener("scroll",tick,{passive:true});tick();})();
+/* UX-JS-DEBUT */
+/* ===== UX : un seul audio à la fois, progression mémorisée, reprise, grammaire repliable, barre mobile ===== */
+(function(){
+const N=2,KEY='kf-a1-m'+N+'-';
+const get=k=>{try{return JSON.parse(localStorage.getItem(KEY+k))}catch(e){return null}};
+const set=(k,v)=>{try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch(e){}};
+
+/* 1. Un seul audio à la fois, avec le bouton en cours mis en évidence */
+let cur=null,curRes=null,curBtn=null,lastBtn=null;
+function stopAudio(){
+  try{speechSynthesis.cancel()}catch(e){}
+  if(cur){try{cur.pause()}catch(e){}cur=null}
+  if(curBtn){curBtn.classList.remove('playing');curBtn=null}
+  if(curRes){const r=curRes;curRes=null;r()}
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('.say');
+  lastBtn=b||null;
+  if(b&&playing){playing=false;$('#playAll').textContent='▶ Tümünü dinle'}
+  if(e.target.id==='playAll'&&playing)stopAudio();
+},true);
+say=function(text,src){return new Promise(res=>{
+  stopAudio();
+  const btn=(lastBtn&&lastBtn.dataset.src===src&&lastBtn.dataset.say===text)?lastBtn:$$('.say').find(b=>src?b.dataset.src===src:b.dataset.say===text);
+  lastBtn=null;
+  if(btn){btn.classList.add('playing');curBtn=btn}
+  let over=false;
+  const end=()=>{if(over)return;over=true;if(curBtn===btn&&btn){btn.classList.remove('playing');curBtn=null}if(curRes===end)curRes=null;cur=null;res()};
+  curRes=end;
+  if(!src)return tts(text).then(end);
+  let fell=false;const fb=()=>{if(fell||over)return;fell=true;tts(text).then(end)};
+  try{const a=new Audio(src);cur=a;a.onended=end;a.onerror=fb;const p=a.play();if(p&&p.catch)p.catch(fb)}catch(e){fb()}
+})};
+
+/* 2. Progression mémorisée */
+const _mark=mark;
+mark=function(k){_mark(k);set('done',Object.keys(DONE));syncSheet()};
+(get('done')||[]).forEach(k=>_mark(k));
+const sb=$('#sinavBtn');
+if(sb){
+  const orig=sb.onclick;
+  sb.onclick=function(ev){
+    orig.call(this,ev);
+    const box=$('#sinavRes'),h=$('h3',box);
+    if(!h)return;
+    set('sinav',h.textContent);
+    /* test réussi : accès direct au module suivant et à la fiche PDF */
+    if(/Tebrikler/.test(box.textContent)&&!$('.after-pass',box)){
+      const nx=$$('.pager a').find(a=>/Sonraki/.test(a.textContent)),pdf=$('a[href$="-ozet.pdf"]');
+      const d=document.createElement('div');d.className='after-pass';
+      d.innerHTML=(nx?'<a class="go" href="'+nx.getAttribute('href')+'">Modül '+(N+1)+"'"+'e geç →</a>':'')+(pdf?'<a href="'+pdf.getAttribute('href')+'" download>Özet fişini indir (PDF) ↓</a>':'');
+      if(d.innerHTML)(h.parentElement||box).appendChild(d);
+    }
+  };
+  const last=get('sinav');
+  if(last){const d=document.createElement('div');d.className='last-score';d.textContent='Son sonucun: '+last;$('#quizSinav').before(d)}
+}
+
+/* 3. Grammaire repliable : aperçu, bouton clair, compteur, état « lu » */
+const gs=$('#dilbilgisi');
+let folds=[];
+if(gs){
+  const kids=[...gs.children];
+  let f=null;
+  kids.forEach(el=>{
+    if(el.tagName==='H2'){
+      f=document.createElement('div');f.className='fold';
+      const h=document.createElement('div');h.className='fold-h';
+      const b=document.createElement('div');b.className='fold-b';
+      el.before(f);h.appendChild(el);f.append(h,b);folds.push(f);
+    }else if(f){f.querySelector('.fold-b').appendChild(el)}
+  });
+  const read=new Set(get('fold')||[]);
+  const paint=(f,i)=>{
+    const open=f.classList.contains('open'),btn=f.querySelector('.fold-more');
+    const n=f.querySelectorAll('.fold-b .say').length;
+    btn.innerHTML=open?'Gizle ▴':'Devamını göster ▾'+(n?' <small>· '+n+' sesli örnek</small>':'');
+    btn.setAttribute('aria-expanded',open);
+    f.classList.toggle('read',read.has(i));
+  };
+  const openFold=(f,i)=>{f.classList.add('open');read.add(i);set('fold',[...read]);paint(f,i)};
+  folds.forEach((f,i)=>{
+    const n=document.createElement('span');n.className='fold-n';n.textContent=(i+1)+' / '+folds.length;f.querySelector('.fold-h').appendChild(n);
+    const btn=document.createElement('button');btn.type='button';btn.className='fold-more';f.appendChild(btn);
+    btn.onclick=()=>{
+      if(f.classList.contains('open')){f.classList.remove('open');paint(f,i);f.scrollIntoView({block:'start'})}
+      else openFold(f,i);
+    };
+    if(i===0)openFold(f,i);else paint(f,i);
+  });
+  const top=document.createElement('div');top.className='fold-top';
+  top.innerHTML='<b>'+folds.length+' konu</b><button type="button" class="btn">Tümünü aç</button>';
+  const eb=gs.querySelector('.eyebrow');(eb||gs.firstElementChild).after(top);
+  top.querySelector('button').onclick=function(){
+    const all=folds.every(f=>f.classList.contains('open'));
+    folds.forEach((f,i)=>{if(all){f.classList.remove('open');paint(f,i)}else openFold(f,i)});
+    this.textContent=all?'Tümünü aç':'Tümünü kapat';
+  };
+}
+
+/* 4. Barre mobile : section en cours + sommaire toujours accessibles */
+const tb=$('.topbar'),side=$('nav.side');
+const links=$$('.toc a');
+const secs=links.map(a=>$(a.getAttribute('href'))).filter(Boolean);
+const names=links.map(a=>a.textContent.trim());
+const bar=document.createElement('div');bar.className='mbar';
+bar.innerHTML='<button type="button" aria-expanded="false" aria-controls="msheet"><span class="cur"></span><span class="all">Bölümler ▾</span></button><div class="ln"><i></i></div>';
+const sheet=document.createElement('div');sheet.className='msheet';sheet.id='msheet';
+const shade=document.createElement('div');shade.className='mshade';
+document.body.append(shade,sheet,bar);
+function syncSheet(){
+  const n=Object.keys(DONE).length;
+  sheet.innerHTML='<div class="mp">Modül ilerlemen: <b>'+n+' / 6</b> bölüm tamamlandı</div>'+links.map((a,i)=>'<a href="'+a.getAttribute('href')+'" class="'+(a.classList.contains('done')?'done ':'')+(i===now?'now':'')+'"><span class="dot"></span>'+names[i]+'</a>').join('');
+}
+let now=-1;
+const toggle=on=>{sheet.classList.toggle('on',on);shade.classList.toggle('on',on);bar.firstElementChild.setAttribute('aria-expanded',on);bar.querySelector('.all').textContent=on?'Kapat ▴':'Bölümler ▾';if(on)syncSheet()};
+bar.firstElementChild.onclick=()=>toggle(!sheet.classList.contains('on'));
+shade.onclick=()=>toggle(false);
+sheet.addEventListener('click',e=>{if(e.target.closest('a'))toggle(false)});
+function measure(){document.documentElement.style.setProperty('--mtop',tb.offsetHeight+'px')}
+measure();addEventListener('resize',measure);
+let tick=false;
+function spy(){
+  tick=false;
+  const top=tb.offsetHeight;
+  const show=side.getBoundingClientRect().bottom<top;
+  bar.classList.toggle('on',show);if(!show&&sheet.classList.contains('on'))toggle(false);
+  let i=-1;secs.forEach((s,k)=>{if(s.getBoundingClientRect().top<top+120)i=k});
+  if(i!==now){now=i;bar.querySelector('.cur').innerHTML=i<0?'Modül '+N:'<small>'+(i+1)+' / '+secs.length+'</small>'+names[i];if(i>1)set('pos',secs[i].id)}
+  const H=document.documentElement.scrollHeight-innerHeight;
+  bar.querySelector('.ln i').style.width=(H>0?Math.min(100,scrollY/H*100):0)+'%';
+}
+addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(spy)}},{passive:true});
+
+/* 6. Objectifs : quatre visibles sur mobile, le reste derrière un bouton explicite */
+const gl=$('ul.goals');
+if(gl&&gl.children.length>5){
+  const li=[...gl.children];li.slice(4).forEach(x=>x.classList.add('g-more'));gl.classList.add('short');
+  const b=document.createElement('button');b.type='button';b.className='fold-more goals-more';
+  b.innerHTML=(li.length-4)+' hedef daha göster ▾';
+  gl.after(b);
+  b.onclick=()=>{gl.classList.remove('short');b.remove()};
+}
+
+/* 5. Reprise : « Kaldığın yerden devam et » */
+const pos=get('pos');
+if(pos&&!location.hash&&$('#'+pos)){
+  const i=secs.findIndex(s=>s.id===pos);
+  const d=document.createElement('div');d.className='resume';
+  d.innerHTML='<a href="#'+pos+'"><small>Kaldığın yerden devam et</small>'+(i>=0?names[i]:'')+' →</a><button type="button" aria-label="Kapat">✕</button>';
+  $('.hero').before(d);
+  d.querySelector('button').onclick=()=>d.remove();
+  d.querySelector('a').addEventListener('click',()=>setTimeout(()=>d.remove(),50));
+}
+spy();
+})();
+/* UX-JS-FIN */
 </script>
 </body>
 </html>

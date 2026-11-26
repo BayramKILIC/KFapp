@@ -354,7 +354,7 @@ table.conj td .say{display:inline-grid;margin-right:8px;vertical-align:middle}
 .mail{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:16px;line-height:1.55}
 .mail .mh{font-size:13px;color:var(--ink-soft);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:10px}
 .sw.mute{text-decoration:line-through;text-decoration-thickness:2px;color:#9C96B5}
-
+/* UX-CSS-DEBUT */
 /* --- UX : sections repliables, barre mobile, reprise, audio en cours --- */
 .say.playing{background:var(--brand);border-color:var(--brand);color:#fff;animation:sayp 1s ease-in-out infinite}
 @keyframes sayp{50%{box-shadow:0 0 0 5px var(--brand-tint)}}
@@ -398,6 +398,16 @@ table.conj td .say{display:inline-grid;margin-right:8px;vertical-align:middle}
   .msheet a.done .dot::after{content:"✓"}
 }
 @media (prefers-reduced-motion:reduce){.say.playing{animation:none}.mbar{transition:none}}
+.after-pass{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.after-pass a{display:inline-flex;align-items:center;gap:6px;border-radius:12px;padding:12px 16px;font-weight:700;text-decoration:none;border:2px solid var(--brand);color:var(--brand-dark);background:var(--card)}
+.after-pass a.go{background:var(--brand);color:#fff}
+.goals-more{display:none}
+@media (max-width:860px){
+  .goals.short li.g-more{display:none}
+  .goals-more{display:flex}
+}
+
+/* UX-CSS-FIN */
 </style>
 </head>
 <body>
@@ -1244,10 +1254,16 @@ $('#sinavBtn').onclick=()=>{
 };
 
 drawG();showPrep(0,false);wireSay();
-
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function(){var bar=document.querySelector(".ruler i");if(!bar)return;
+var tick=function(){var h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?Math.min(100,window.scrollY/h*100):0)+"%";};
+window.addEventListener("scroll",tick,{passive:true});tick();})();
+/* UX-JS-DEBUT */
 /* ===== UX : un seul audio à la fois, progression mémorisée, reprise, grammaire repliable, barre mobile ===== */
 (function(){
-const KEY='kf-a1-m6-';
+const N=6,KEY='kf-a1-m'+N+'-';
 const get=k=>{try{return JSON.parse(localStorage.getItem(KEY+k))}catch(e){return null}};
 const set=(k,v)=>{try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch(e){}};
 
@@ -1285,7 +1301,19 @@ mark=function(k){_mark(k);set('done',Object.keys(DONE));syncSheet()};
 const sb=$('#sinavBtn');
 if(sb){
   const orig=sb.onclick;
-  sb.onclick=function(ev){orig.call(this,ev);const h=$('#sinavRes h3');if(h)set('sinav',h.textContent)};
+  sb.onclick=function(ev){
+    orig.call(this,ev);
+    const box=$('#sinavRes'),h=$('h3',box);
+    if(!h)return;
+    set('sinav',h.textContent);
+    /* test réussi : accès direct au module suivant et à la fiche PDF */
+    if(/Tebrikler/.test(box.textContent)&&!$('.after-pass',box)){
+      const nx=$$('.pager a').find(a=>/Sonraki/.test(a.textContent)),pdf=$('a[href$="-ozet.pdf"]');
+      const d=document.createElement('div');d.className='after-pass';
+      d.innerHTML=(nx?'<a class="go" href="'+nx.getAttribute('href')+'">Modül '+(N+1)+"'"+'e geç →</a>':'')+(pdf?'<a href="'+pdf.getAttribute('href')+'" download>Özet fişini indir (PDF) ↓</a>':'');
+      if(d.innerHTML)(h.parentElement||box).appendChild(d);
+    }
+  };
   const last=get('sinav');
   if(last){const d=document.createElement('div');d.className='last-score';d.textContent='Son sonucun: '+last;$('#quizSinav').before(d)}
 }
@@ -1360,11 +1388,21 @@ function spy(){
   const show=side.getBoundingClientRect().bottom<top;
   bar.classList.toggle('on',show);if(!show&&sheet.classList.contains('on'))toggle(false);
   let i=-1;secs.forEach((s,k)=>{if(s.getBoundingClientRect().top<top+120)i=k});
-  if(i!==now){now=i;bar.querySelector('.cur').innerHTML=i<0?'Modül 6':'<small>'+(i+1)+' / '+secs.length+'</small>'+names[i];if(i>1)set('pos',secs[i].id)}
+  if(i!==now){now=i;bar.querySelector('.cur').innerHTML=i<0?'Modül '+N:'<small>'+(i+1)+' / '+secs.length+'</small>'+names[i];if(i>1)set('pos',secs[i].id)}
   const H=document.documentElement.scrollHeight-innerHeight;
   bar.querySelector('.ln i').style.width=(H>0?Math.min(100,scrollY/H*100):0)+'%';
 }
 addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(spy)}},{passive:true});
+
+/* 6. Objectifs : quatre visibles sur mobile, le reste derrière un bouton explicite */
+const gl=$('ul.goals');
+if(gl&&gl.children.length>5){
+  const li=[...gl.children];li.slice(4).forEach(x=>x.classList.add('g-more'));gl.classList.add('short');
+  const b=document.createElement('button');b.type='button';b.className='fold-more goals-more';
+  b.innerHTML=(li.length-4)+' hedef daha göster ▾';
+  gl.after(b);
+  b.onclick=()=>{gl.classList.remove('short');b.remove()};
+}
 
 /* 5. Reprise : « Kaldığın yerden devam et » */
 const pos=get('pos');
@@ -1378,12 +1416,7 @@ if(pos&&!location.hash&&$('#'+pos)){
 }
 spy();
 })();
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<script>
-(function(){var bar=document.querySelector(".ruler i");if(!bar)return;
-var tick=function(){var h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?Math.min(100,window.scrollY/h*100):0)+"%";};
-window.addEventListener("scroll",tick,{passive:true});tick();})();
+/* UX-JS-FIN */
 </script>
 </body>
 </html>
