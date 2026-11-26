@@ -552,7 +552,7 @@ _M6_REC = [
 FIS[6] = dict(
     title="Şehirde", title_fr="En ville", video="https://youtu.be/weKNSUuk9KI",
     sections=[
-        dict(kind="dialogue", title="Diyalog", small="Lyon'da, sokakta",
+        dict(kind="dialogue", title="Diyalog", small="Lyon'da, sokakta", img="a1/img/m06/m06-dialogue.webp",
              lines=[
                  ("Emre", "Excusez-moi, madame. Je cherche la gare, s'il vous plaît.", "Affedersiniz hanımefendi. Garı arıyorum, lütfen."),
                  ("La dame", "La gare ? Ce n'est pas loin. Vous êtes à pied ?", "Gar mı? Uzak değil. Yaya mısınız?"),

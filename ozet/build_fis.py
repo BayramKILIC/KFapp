@@ -65,6 +65,12 @@ h2 small{font-family:'Jakarta',sans-serif;font-weight:400;font-size:9.4pt;color:
 .row .fr{flex:1.05;font-weight:700}
 .row .tr{flex:1;color:var(--soft);font-size:9.8pt}
 .row .k{flex:none;width:42mm;font-weight:800;color:var(--brand-dark)}
+.dlg2{columns:2;column-gap:9mm}
+.dlg2 img{display:block;width:100%;border-radius:3mm;margin-bottom:2.4mm;break-inside:avoid}
+.dlg2 .row{display:block;padding:1.5mm 0 1.5mm 16mm;position:relative}
+.dlg2 .row .who{position:absolute;left:0;top:1.9mm;width:15mm}
+.dlg2 .row .fr,.dlg2 .row .tr{display:block}
+.dlg2 .row .tr{margin-top:.3mm;font-size:9.4pt}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 9mm}
 .cols > div > h2{margin-top:0}
 .conj .row .p{flex:none;width:21mm;color:var(--soft)}
@@ -115,6 +121,18 @@ ol.pts li{padding:1.3mm 0;border-bottom:1px solid var(--line)}
 """
 
 
+def img_uri(path, width=1000):
+    """Image réduite et passée en JPEG, pour garder un PDF léger."""
+    import base64, io
+    from PIL import Image
+    im = Image.open(path).convert("RGB")
+    if im.width > width:
+        im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=82)
+    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+
+
 def h2(n, title, small=""):
     return f'<h2><span class="n">{n}</span>{mk(title)}{f" <small>{mk(small)}</small>" if small else ""}</h2>'
 
@@ -135,6 +153,8 @@ def render(sec, n):
     tail = "".join(note(x) for x in ([nt] if isinstance(nt, str) else nt)) if nt else ""
     if k == "dialogue":
         body = rows(sec["lines"], ("who", "fr", "tr"))
+        if sec.get("img"):          # image en haut à gauche, dialogue sur deux colonnes
+            return f'<section class="long">{title}{intro}<div class="dlg2"><img src="{img_uri(ROOT / sec["img"])}" alt="">{body}</div>{tail}</section>'
         return f'<section class="long">{title}{intro}{body}{tail}</section>'
     paras = "".join(f'<p class="para">{mk(p)}</p>' for p in sec.get("paras", []))
     if k == "rows":
