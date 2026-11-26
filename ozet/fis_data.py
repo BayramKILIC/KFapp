@@ -11,7 +11,7 @@ FIS = {
         title="Selamlaşma ve tanışma", title_fr="Saluer et se présenter",
         video="https://youtu.be/q2jWhZZVggY",
         sections=[
-            dict(kind="dialogue", title="Diyalog", small="Fransızca kursunun ilk günü",
+            dict(kind="dialogue", title="Diyalog", small="Fransızca kursunun ilk günü", img="a1/img/m01/m01-dialogue.webp",
                  lines=[
                      ("Elif", "Bonjour ! Je m'appelle Elif. Et toi, tu t'appelles comment ?", "Merhaba! Benim adım Elif. Ya sen, senin adın ne?"),
                      ("Emre", "Salut ! Moi, je m'appelle Emre.", "Selam! Benim adım Emre."),
@@ -134,7 +134,7 @@ def _old_voc(n, newpage=False):
 FIS[2] = dict(
     title="Kişisel bilgilerim", title_fr="Mes informations", video="https://youtu.be/KFqDUPxwHSQ",
     sections=[
-        dict(kind="dialogue", title="Diyalog", small="Dil kursuna kayıt",
+        dict(kind="dialogue", title="Diyalog", small="Dil kursuna kayıt", img="a1/img/m02/m02-dialogue.webp",
              lines=[
                  ("Mme Roux", "Bonjour monsieur ! C'est pour une inscription ?", "Merhaba beyefendi! Kayıt için mi geldiniz?"),
                  ("Emre", "Oui, pour le cours de français. Je m'appelle Emre Yılmaz.", "Evet, Fransızca kursu için. Benim adım Emre Yılmaz."),
@@ -215,7 +215,7 @@ FIS[2] = dict(
 FIS[3] = dict(
     title="Ailem ve çevremdeki insanlar", title_fr="Ma famille, les gens", video="https://youtu.be/H2VOmLVxmAA",
     sections=[
-        dict(kind="dialogue", title="Diyalog", small="Emre aile fotoğrafını gösteriyor",
+        dict(kind="dialogue", title="Diyalog", small="Emre aile fotoğrafını gösteriyor", img="a1/img/m03/m03-dialogue.webp",
              lines=[
                  ("Léa", "C'est une photo de ta famille ?", "Bu senin ailenin fotoğrafı mı?"),
                  ("Emre", "Oui, c'est ma famille, à Istanbul.", "Evet, bu benim ailem, İstanbul'da."),
@@ -301,7 +301,7 @@ FIS[3] = dict(
 FIS[4] = dict(
     title="Sevdiklerim ve hobilerim", title_fr="Mes goûts", video="https://youtu.be/ze_QS1Tl7M4",
     sections=[
-        dict(kind="dialogue", title="Diyalog", small="Hafta sonu ne yapıyorsun?",
+        dict(kind="dialogue", title="Diyalog", small="Hafta sonu ne yapıyorsun?", img="a1/img/m04/m04-dialogue.webp",
              lines=[
                  ("Camille", "Salut Emre ! Qu'est-ce que tu fais le week-end ?", "Selam Emre! Hafta sonu ne yapıyorsun?"),
                  ("Emre", "Le samedi, je joue au football avec des amis. J'adore le sport !", "Cumartesi günleri arkadaşlarla futbol oynuyorum. Spora bayılırım!"),
@@ -417,7 +417,7 @@ _M5_REC = [
 FIS[5] = dict(
     title="Günlük hayatım", title_fr="Ma journée", video="https://youtu.be/-I9Je0uWmOw",
     sections=[
-        dict(kind="dialogue", title="Diyalog", small="Pazartesi sabahı, merdivende",
+        dict(kind="dialogue", title="Diyalog", small="Pazartesi sabahı, merdivende", img="a1/img/m05/m05-dialogue.webp",
              lines=[
                  ("Sophie", "Bonjour Emre ! Ça va ? Tu es pressé ?", "Günaydın Emre! Nasılsın? Acelen mi var?"),
                  ("Emre", "Bonjour Sophie ! Oui, je suis en retard. Il est quelle heure, s'il te plaît ?", "Günaydın Sophie! Evet, geç kaldım. Saat kaç, lütfen?"),
