@@ -1310,7 +1310,7 @@ if(sb){
     if(/Tebrikler/.test(box.textContent)&&!$('.after-pass',box)){
       const nx=$$('.pager a').find(a=>/Sonraki/.test(a.textContent)),pdf=$('a[href$="-ozet.pdf"]');
       const d=document.createElement('div');d.className='after-pass';
-      d.innerHTML=(nx?'<a class="go" href="'+nx.getAttribute('href')+'">Modül '+(N+1)+"'"+'e geç →</a>':'')+(pdf?'<a href="'+pdf.getAttribute('href')+'" download>Özet fişini indir (PDF) ↓</a>':'');
+      d.innerHTML=(nx?'<a class="go" href="'+nx.getAttribute('href')+'">Modül '+(N+1)+"'"+(['','','ye','e','e','e','ya','ye','e','a','a','e','ye'][N+1]||'e')+' geç →</a>':'')+(pdf?'<a href="'+pdf.getAttribute('href')+'" download>Özet fişini indir (PDF) ↓</a>':'');
       if(d.innerHTML)(h.parentElement||box).appendChild(d);
     }
   };
