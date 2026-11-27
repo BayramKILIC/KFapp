@@ -8,7 +8,7 @@
 
 :root {
   /* les noms --violet et --lilac viennent du site Easy French : ici ce sont le turquoise foncé de la série et sa teinte claire */
-  --violet: #007A87; --violet-dark: #004F58; --lilac: #DCF3F5; --ink: #142C36; --soft: #5F7680;
+  --violet: #007A87; --violet-dark: #004F58; --lilac: #DCF3F5; --ink: #142C36; --tr: #7040C8; --soft: #5F7680;
   --paper: #FCFFFE; --rule: #D3EEF1; --rule-b: #A9DDE3; --margin: #F06276;
   --red: #DE344A; --green: #169660; --green-tint: #E2F6EC; --yellow: #FFE256; --blue-hl: #B4D6FF; --pink-hl: #FFC0DA; --orange-hl: #FFC896;
   --line: 32px; --gutter: 84px;
@@ -202,7 +202,13 @@ footer a { color: #fff; }
 .ho { padding: 0 .12em; border-radius: 4px; background: linear-gradient(178deg, transparent 12%, var(--orange-hl) 12%, var(--orange-hl) 90%, transparent 90%); }  /* voyelle arrière */
 .hb { padding: 0 .12em; }                                                                                                                         /* voyelle avant (bleu) */
 .bu .hb, .bu .ho { color: var(--violet-dark); }
-.tr { font-weight: 600; }
+.tr { font-weight: 600; color: var(--tr); }                 /* un mot turc : toujours en violet */
+.bubble .fr { color: var(--tr); font-weight: 600; }
+.obj { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; margin: var(--line) 0; }
+.obj > img { width: 150px; height: 150px; border: 3px solid var(--ink); border-radius: 18px; background: #fff; box-shadow: 6px 6px 0 var(--violet); object-fit: contain; flex: none; }
+.obj .wds { margin: 0; flex: 1; min-width: 240px; }
+.wds.ph { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }       /* phrases entières */
+.fam .big.tr { color: var(--tr); }
 .hand.red, .red { color: var(--red); }
 .wds { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px 22px; margin: var(--line) 0; max-width: 980px; }
 .wd { display: grid; grid-template-columns: 36px 1fr; column-gap: 12px; align-items: center; }
