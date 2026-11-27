@@ -170,6 +170,8 @@ table.conj td:nth-child(3) { font-size: 1.5rem; font-weight: 700; }
 .btn:hover { transform: translate(2px, 2px); box-shadow: 4px 4px 0 var(--violet-dark); }
 .btn.alt { color: var(--ink); background: #fff; }
 .suite { display: flex; flex-wrap: wrap; gap: 18px; }
+@media (min-width: 620px) { .fam.three { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 619px) { .fam.three { grid-template-columns: 1fr; } }
 footer { margin-top: calc(var(--line) * 2); background: var(--violet); color: #fff; padding: var(--line) 20px; text-align: center; }
 footer a { color: #fff; }
 
