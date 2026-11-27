@@ -5,6 +5,7 @@ progression mémorisée, reprise, un seul audio à la fois, objectifs raccourcis
 Le code est dans ux/ux.css et ux/ux.js ; il est inséré entre des repères, donc on peut relancer sans risque.
 
 Lancement, depuis la racine KFapp :   py ux/apply_ux.py
+Pour une seule page :                 py ux/apply_ux.py chemin/vers/modul-7-xxx/index.html
 À relancer après avoir reconstruit la page d'un module.
 """
 import re
@@ -17,7 +18,11 @@ JS = (HERE / "ux.js").read_text(encoding="utf-8")
 C0, C1 = "/* UX-CSS-DEBUT */", "/* UX-CSS-FIN */"
 J0, J1 = "/* UX-JS-DEBUT */", "/* UX-JS-FIN */"
 
-for page in sorted((ROOT / "delf-a1").glob("modul-*/index.html")):
+import sys
+PAGES = [Path(a) for a in sys.argv[1:]] or sorted((ROOT / "delf-a1").glob("modul-*/index.html"))
+
+for page in PAGES:
+    page = page.resolve()
     n = int(re.match(r"modul-(\d+)", page.parent.name).group(1))
     h = page.read_text(encoding="utf-8")
     h = re.sub(re.escape(C0) + ".*?" + re.escape(C1) + "\n?", "", h, flags=re.S)
