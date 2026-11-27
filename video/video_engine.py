@@ -63,6 +63,8 @@ PALETTE = {
     "gold": (233, 181, 59), "gold_tint": (251, 243, 221), "gold_ink": (122, 86, 7),
     "ok": (30, 138, 90), "ok_tint": (227, 244, 236), "no": (194, 65, 45), "no_tint": (251, 233, 229),
     "mute": (176, 171, 196), "white": (255, 255, 255), "night": (29, 26, 51),
+    # plan de ville (module 6)
+    "road": (226, 222, 238), "grass": (211, 235, 219), "grass_ink": (36, 112, 74), "plan": (247, 245, 252),
 }
 # styles utilisables dans le texte : "Salu[t|mute]" ou "[Bonjour|hl] !"
 BG_TOP = (252, 249, 242)      # crème chaud (haut gauche)
@@ -78,6 +80,9 @@ STYLES = {
     "mute": {"color": "mute", "strike": True},
     "soft": {"color": "soft"},
     "white": {"color": "white"},
+    "fr": {"color": "brand", "bold": True},        # mot français dans un texte turc : violet et gras
+    "frok": {"color": "ok", "bold": True},
+    "frno": {"color": "no", "bold": True, "strike": True},
 }
 FONT_CANDIDATES = {
     "display": ["fonts/BricolageGrotesque-Bold.ttf", "C:/Windows/Fonts/segoeuib.ttf", "C:/Windows/Fonts/arialbd.ttf",
@@ -86,6 +91,8 @@ FONT_CANDIDATES = {
              "C:/Windows/Fonts/arialbd.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"],
     "regular": ["fonts/PlusJakartaSans-Regular.ttf", "C:/Windows/Fonts/segoeui.ttf", "C:/Windows/Fonts/arial.ttf",
                 "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
+    "symbols": ["fonts/DejaVuSans-Bold.ttf", "C:/Windows/Fonts/seguisym.ttf", "C:/Windows/Fonts/arialbd.ttf",
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"],
 }
 
 # =============================================================================
@@ -101,8 +108,9 @@ def Box(id, x, y, w, h, fill="card", outline="line", radius=24, width=2, alpha=1
     return dict(type="box", id=id, x=x, y=y, w=w, h=h, fill=fill, outline=outline, radius=radius, width=width, alpha=alpha)
 
 
-def Img(id, path, x, y, w, h, radius=24):
-    return dict(type="image", id=id, path=path, x=x, y=y, w=w, h=h, radius=radius)
+def Img(id, path, x, y, w, h, radius=24, top=False):
+    """top=True : dessinée par-dessus les tracés et les pastilles (portrait qui se déplace sur le plan)."""
+    return dict(type="image", id=id, path=path, x=x, y=y, w=w, h=h, radius=radius, top=top)
 
 
 def Arrow(id, frm, to, color="gold", width=7, curve=0, head=24):
@@ -112,6 +120,22 @@ def Arrow(id, frm, to, color="gold", width=7, curve=0, head=24):
 
 def Badge(id, text, x, y, size=30, fill="gold", color="ink", align="left", pad=(22, 10)):
     return dict(type="badge", id=id, text=text, x=x, y=y, size=size, fill=fill, color=color, align=align, pad=pad)
+
+
+def Bubble(id, x, y, w, h, side="left", fill="card", outline="brand", dim=False):
+    """Bulle de dialogue ; side = côté de la queue (vers le portrait). dim : réplique déjà dite, atténuée."""
+    return dict(type="bubble", id=id, x=x, y=y, w=w, h=h, side=side, fill=fill, outline=outline, dim=dim)
+
+
+def Route(id, pts, color="brand", width=8, dash=None, head=0):
+    """Tracé (itinéraire) : liste de points (x, y). Dans un beat animé (anim=...), il se dessine progressivement.
+    dash=(plein, vide) pour un pointillé ; head>0 : pointe de flèche à l'arrivée."""
+    return dict(type="path", id=id, pts=[tuple(p) for p in pts], color=color, width=width, dash=dash, head=head)
+
+
+def Dot(id, x, y, r=26, fill="gold", outline="white", width=6, label="", lcolor="ink"):
+    """Pastille ronde (personnage sur le plan). Dans un beat animé, elle glisse de son ancienne position à la nouvelle."""
+    return dict(type="dot", id=id, x=x, y=y, r=r, fill=fill, outline=outline, width=width, label=label, lcolor=lcolor)
 
 
 def Countdown(id, x, y, w, label="", seconds=None, color="brand"):
@@ -127,7 +151,7 @@ def FR(text, voice="F1"):
     return {"fr": text, "voice": voice}
 
 
-def beat(show=None, hide=None, say=None, clear=False, pause=0.45, lead=0.25, wait=0.0, repeat=None, bell=None):
+def beat(show=None, hide=None, say=None, clear=False, pause=0.45, lead=0.25, wait=0.0, repeat=None, bell=None, anim=None):
     """
     show   : élément ou liste d'éléments (ajout ou remplacement par id)
     hide   : id ou liste d'ids à retirer
@@ -135,16 +159,19 @@ def beat(show=None, hide=None, say=None, clear=False, pause=0.45, lead=0.25, wai
     clear  : retire tout avant d'afficher
     wait   : durée minimale du beat (utile sans audio, ou pour un compte à rebours)
     repeat : facteur ; le beat dure alors facteur × durée de l'audio du beat précédent (pause « Tekrar et »)
+    anim   : durée (s) d'une transition animée : les éléments déjà à l'écran dont la position change glissent vers
+             leur nouvelle place, et les tracés (Route) se dessinent, au lieu du simple fondu
     bell   : petit son de cloche au début du beat. Un entier 0, 1, 2... = note de plus en plus aiguë
              (crescendo pour une liste) ; "ok" = petit accord de fin de liste.
     """
     as_list = lambda v: [] if v is None else (v if isinstance(v, list) else [v])
     return dict(show=as_list(show), hide=as_list(hide), say=as_list(say), clear=clear,
-                pause=pause, lead=lead, wait=wait, repeat=repeat, bell=bell)
+                pause=pause, lead=lead, wait=wait, repeat=repeat, bell=bell, anim=anim)
 
 
-def scene(title, beats):
-    return dict(title=title, beats=beats)
+def scene(title, beats, fit=True):
+    """fit=False : pas de cadrage automatique pour cette scène (écrans composés à la main, comme le plan de ville)."""
+    return dict(title=title, beats=beats, fit=fit)
 
 # =============================================================================
 # POLICES ET TEXTE
@@ -165,6 +192,67 @@ def font(kind, size):
     if key not in _fonts:
         _fonts[key] = ImageFont.truetype(_font_paths[kind], size)
     return _fonts[key]
+
+
+_missing = {}
+
+
+def glyph_missing(kind, ch):
+    """Vrai si la police principale n'a pas ce caractère (il sera dessiné avec la police « symbols »).
+    Test sans dépendance : le dessin du caractère est identique à celui d'un caractère inexistant."""
+    if ord(ch) < 0x250 or ch in "«»…’‘“”–—·•":
+        return False
+    key = (kind, ch)
+    if key not in _missing:
+        f = font(kind, 40)
+        ref = f.getmask("\U0010FFFD")
+        m = f.getmask(ch)
+        _missing[key] = (m.size == ref.size and bytes(m) == bytes(ref))
+    return _missing[key]
+
+
+class MixFont:
+    """Police principale + police de secours pour les symboles qu'elle n'a pas (↗ ↘ ‿ ⁿ ɛ ə ♥ ✗...)."""
+    def __init__(self, kind, size):
+        self.kind, self.size = kind, size
+        self.main = font(kind, size)
+        self.fb = font("symbols", size) if kind != "symbols" else self.main
+
+    def runs(self, text):
+        out, cur, cur_fb = [], "", False
+        for ch in text:
+            fb = glyph_missing(self.kind, ch)
+            if fb != cur_fb and cur:
+                out.append((cur_fb, cur)); cur = ""
+            cur_fb = fb
+            cur += ch
+        if cur:
+            out.append((cur_fb, cur))
+        return out
+
+    def getlength(self, text):
+        return sum((self.fb if fb else self.main).getlength(t) for fb, t in self.runs(text))
+
+    def getmetrics(self):
+        return self.main.getmetrics()
+
+    def draw(self, d, xy, text, fill):
+        x, y = xy
+        base = y + self.main.getmetrics()[0]
+        for fb, t in self.runs(text):
+            f = self.fb if fb else self.main
+            d.text((x, base), t, font=f, fill=fill, anchor="ls")
+            x += f.getlength(t)
+
+
+_mix = {}
+
+
+def mfont(kind, size):
+    key = (kind, size)
+    if key not in _mix:
+        _mix[key] = MixFont(kind, size)
+    return _mix[key]
 
 
 def col(c):
@@ -205,9 +293,9 @@ def wrap_lines(plain, fnt, max_w):
 
 
 def layout_text(el):
-    fnt = font(el["font"], el["size"])
+    fnt = mfont(el["font"], el["size"])
     plain, styles = parse_markup(el["text"])
-    lines = wrap_lines(plain, fnt, el.get("max_w"))
+    lines = el.get("_lines") or wrap_lines(plain, fnt, el.get("max_w"))   # _lines : coupures figées par le cadrage automatique
     lh = el["size"] * el["line_h"]
     asc = fnt.getmetrics()[0]
     chars = [None] * len(plain)
@@ -229,7 +317,7 @@ def layout_text(el):
 
 
 def style_of(name, base_color):
-    st = {"color": base_color, "bg": None, "strike": False, "under": False}
+    st = {"color": base_color, "bg": None, "strike": False, "under": False, "bold": False}
     if name:
         for part in name.split("+"):
             s = STYLES.get(part, {})
@@ -261,7 +349,9 @@ def draw_text(img, el, lay, dy=0, alpha=1.0):
             if st["bg"] is not None and seg.strip():
                 pad = el["size"] * 0.14
                 d.rounded_rectangle((sx - pad, y - pad * 0.4, sx + sw + pad, y + el["size"] * 1.18), radius=int(pad * 1.6), fill=st["bg"] + (255,))
-            d.text((sx, y), seg, font=fnt, fill=st["color"] + (255,))
+            fnt.draw(d, (sx, y), seg, st["color"] + (255,))
+            if st["bold"]:                                                 # gras simulé : second passage légèrement décalé
+                fnt.draw(d, (sx + max(1.0, el["size"] * 0.028), y), seg, st["color"] + (255,))
             if st["strike"] and seg.strip():
                 ly = y + el["size"] * 0.62
                 d.line((sx - 2, ly, sx + sw + 2, ly), fill=st["color"] + (255,), width=max(3, el["size"] // 12))
@@ -345,8 +435,89 @@ def draw_arrow(img, el, lays, els, progress=1.0):
                    (bx - h * math.cos(ang + 0.45), by - h * math.sin(ang + 0.45))], fill=c)
 
 
+def draw_bubble(img, e, dy=0, alpha=1.0):
+    x0, y0, x1, y1 = e["x"], e["y"] + dy, e["x"] + e["w"], e["y"] + e["h"] + dy
+    line = col("line" if e["dim"] else e["outline"]) + (255,)
+    fill = col("card" if e["dim"] else e["fill"]) + (255,)
+    r = min(36, e["h"] / 2)
+    ty = y0 + min(62, e["h"] / 2)
+    tail = [(x0 + 3, ty - 22), (x0 - 36, ty + 4), (x0 + 3, ty + 20)] if e["side"] == "left" else \
+           [(x1 - 3, ty - 22), (x1 + 36, ty + 4), (x1 - 3, ty + 20)]
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    if not e["dim"]:                                                      # ombre douce sous la réplique en cours
+        d.rounded_rectangle((x0 + 6, y0 + 8, x1 + 6, y1 + 8), radius=r, fill=(91, 76, 196, 40))
+    w = 3 if e["dim"] else 5
+    d.rounded_rectangle((x0, y0, x1, y1), radius=r, fill=fill, outline=line, width=w)
+    d.polygon(tail, fill=fill)
+    d.line(tail, fill=line, width=w, joint="curve")
+    if alpha < 1:
+        layer.putalpha(layer.getchannel("A").point(lambda v: int(v * alpha)))
+    img.alpha_composite(layer)
+
+
+def draw_path(img, el, progress=1.0):
+    """Polyligne dessinée jusqu'à la fraction « progress » de sa longueur (pointillé possible)."""
+    pts = el["pts"]
+    if progress <= 0 or len(pts) < 2:
+        return
+    segs = [math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(pts, pts[1:])]
+    target = sum(segs) * min(1.0, progress)
+    d = ImageDraw.Draw(img)
+    c = col(el["color"]) + (255,)
+    w = el["width"]
+
+    def at(dist):
+        for (a, b), L in zip(zip(pts, pts[1:]), segs):
+            if dist <= L or (a, b) == (pts[-2], pts[-1]):
+                t = min(1.0, dist / L) if L else 0
+                return (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t)
+            dist -= L
+
+    if el["dash"]:
+        on, off = el["dash"]
+        pos = 0.0
+        while pos < target:
+            a, b = at(pos), at(min(target, pos + on))
+            d.line([a, b], fill=c, width=w)
+            pos += on + off
+    else:
+        line, run = [pts[0]], 0.0
+        for (a, b), L in zip(zip(pts, pts[1:]), segs):
+            if run + L <= target:
+                line.append(b)
+                run += L
+            else:
+                line.append(at(target))
+                break
+        d.line(line, fill=c, width=w, joint="curve")
+        for p in line:                                                    # extrémités et angles arrondis
+            d.ellipse((p[0] - w / 2, p[1] - w / 2, p[0] + w / 2, p[1] + w / 2), fill=c)
+    if el["head"] and progress >= 0.999:
+        (ax, ay), (bx, by) = pts[-2], pts[-1]
+        ang, h = math.atan2(by - ay, bx - ax), el["head"]
+        d.polygon([(bx + h * 0.5 * math.cos(ang), by + h * 0.5 * math.sin(ang)),
+                   (bx - h * math.cos(ang - 0.5), by - h * math.sin(ang - 0.5)),
+                   (bx - h * math.cos(ang + 0.5), by - h * math.sin(ang + 0.5))], fill=c)
+
+
+def draw_dot(img, el, alpha=1.0):
+    x, y, r = el["x"], el["y"], el["r"]
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    d.ellipse((x - r - 2, y - r + 6, x + r + 2, y + r + 10), fill=(29, 26, 51, 46))                 # ombre portée
+    d.ellipse((x - r, y - r, x + r, y + r), fill=col(el["fill"]) + (255,),
+              outline=col(el["outline"]) + (255,) if el["outline"] else None, width=el["width"])
+    if el["label"]:
+        f = font("display", int(r * 1.05))
+        d.text((x, y - r * 0.04), el["label"], font=f, fill=col(el.get("lcolor", "ink")) + (255,), anchor="mm")
+    if alpha < 1:
+        layer.putalpha(layer.getchannel("A").point(lambda v: int(v * alpha)))
+    img.alpha_composite(layer)
+
+
 def draw_badge(img, el, dy=0, alpha=1.0):
-    fnt = font("bold", el["size"])
+    fnt = mfont("bold", el["size"])
     tw = fnt.getlength(el["text"])
     px, py = el["pad"]
     w, h = tw + 2 * px, el["size"] * 1.2 + 2 * py
@@ -355,7 +526,7 @@ def draw_badge(img, el, dy=0, alpha=1.0):
     layer = img if alpha >= 0.999 else Image.new("RGBA", img.size, (0, 0, 0, 0))
     d = ImageDraw.Draw(layer)
     d.rounded_rectangle((x, y, x + w, y + h), radius=int(h / 2), fill=col(el["fill"]) + (255,))
-    d.text((x + px, y + py), el["text"], font=fnt, fill=col(el["color"]) + (255,))
+    fnt.draw(d, (x + px, y + py), el["text"], col(el["color"]) + (255,))
     if layer is not img:
         layer.putalpha(layer.getchannel("A").point(lambda v: int(v * alpha)))
         img.alpha_composite(layer)
@@ -420,9 +591,19 @@ class Renderer:
         f2 = font("bold", 24)
         d.text((W - 48 - f2.getlength(self.module["url"]), H - 52), self.module["url"], font=f2, fill=PALETTE["soft"])
 
-    def render(self, state, chapter, enter=None, enter_p=1.0, cd_frac=0.0, cd_total=0.0):
-        """state : dict id->élément (ordre = ordre d'affichage). enter : ids qui apparaissent (animés par enter_p)."""
+    def render(self, state, chapter, enter=None, enter_p=1.0, cd_frac=0.0, cd_total=0.0, move=None, draw_p=1.0):
+        """state : dict id->élément (ordre = ordre d'affichage). enter : ids qui apparaissent (animés par enter_p).
+        move : (ancien état, progression 0..1) pour faire glisser les éléments déplacés ; draw_p : avancée des tracés qui entrent."""
         enter = enter or set()
+        if move:
+            old, mp = move
+            mp = mp * mp * (3 - 2 * mp)                                   # départ et arrivée en douceur
+            moved = {}
+            for i, e in state.items():
+                o = old.get(i)
+                if o and o["type"] == e["type"] and "x" in e and (o["x"], o["y"]) != (e["x"], e["y"]):
+                    moved[i] = dict(e, x=o["x"] + (e["x"] - o["x"]) * mp, y=o["y"] + (e["y"] - o["y"]) * mp)
+            state = {i: moved.get(i, e) for i, e in state.items()}
         img = self.bg.copy()
         lays = {i: layout_text(e) for i, e in state.items() if e["type"] == "text"}
         ease = 1 - (1 - enter_p) ** 3
@@ -440,7 +621,7 @@ class Renderer:
                     outline=(col(e["outline"]) + (int(255 * a),)) if e["outline"] else None, width=e["width"])
                 if not full:
                     img.alpha_composite(layer)
-            elif t == "image":
+            elif t == "image" and not e.get("top"):
                 im = load_image(e["path"], e["w"], e["h"], e["radius"])
                 if a < 1:
                     im = im.copy(); im.putalpha(im.getchannel("A").point(lambda v: int(v * a)))
@@ -451,6 +632,20 @@ class Renderer:
                 draw_badge(img, e, dy, a)
             elif t == "countdown":
                 draw_countdown(img, e, cd_frac, cd_total)
+            elif t == "path":
+                draw_path(img, e, draw_p if new else 1.0)
+            elif t == "bubble":
+                draw_bubble(img, e, dy, a)
+        for i, e in state.items():                                       # les pastilles passent au-dessus des tracés
+            if e["type"] == "dot":
+                draw_dot(img, e, ease if i in enter else 1.0)
+        for i, e in state.items():
+            if e["type"] == "image" and e.get("top"):
+                im = load_image(e["path"], e["w"], e["h"], e["radius"])
+                a = ease if i in enter else 1.0
+                if a < 1:
+                    im = im.copy(); im.putalpha(im.getchannel("A").point(lambda v: int(v * a)))
+                img.alpha_composite(im, (int(e["x"]), int(e["y"])))
         for i, e in state.items():
             if e["type"] == "arrow":
                 draw_arrow(img, e, lays, state, ease if i in enter else 1.0)
@@ -521,8 +716,13 @@ class AudioBank:
         out = CACHE / "tts" / f"{lang}-{code}-{h}.mp3"
         if out.exists():
             return out
-        if self.draft or not self.key:
+        if self.draft:
             return None
+        if not self.key:
+            # vidéo finale : jamais de phrase remplacée par du silence sans le dire
+            sys.exit("\nARRÊT : il manque la voix de cette phrase et la clé ElevenLabs n'est pas définie dans ce terminal.\n"
+                     f"  Phrase : {text[:90]}\n"
+                     "  Tape d'abord :  set ELEVENLABS_API_KEY=ta_cle   puis relance la commande.\n")
         import requests
         vid = self.voice_id(code)
         for attempt in range(3):
@@ -624,11 +824,140 @@ def mix_bells(audio, bells):
     return bytearray(pcm.tobytes())
 
 
+# =============================================================================
+# CADRAGE AUTOMATIQUE (MODULE["autofit"] = True)
+# =============================================================================
+FIXED_IDS = ("title", "sub")          # le titre de l'écran reste à sa place, le reste est agrandi et centré
+FIT_MAX = 1.45                        # agrandissement maximal
+FIT_AREA = (80, 1840, 1015)           # gauche, droite, bas de la zone utile (le haut dépend du titre)
+
+
+def _el_bbox(e):
+    t = e["type"]
+    if t == "text":
+        return layout_text(e)["bbox"]
+    if t in ("box", "image"):
+        return (e["x"], e["y"], e["x"] + e["w"], e["y"] + e["h"])
+    if t == "badge":
+        w = mfont("bold", e["size"]).getlength(e["text"]) + 2 * e["pad"][0]
+        h = e["size"] * 1.2 + 2 * e["pad"][1]
+        x = e["x"] - (w / 2 if e["align"] == "center" else 0)
+        return (x, e["y"], x + w, e["y"] + h)
+    if t == "countdown":
+        return (e["x"], e["y"], e["x"] + e["w"] + 90, e["y"] + (50 if e["label"] else 0) + 44)
+    if t == "arrow":
+        pts = [p for p in (e["frm"], e["to"]) if isinstance(p, (list, tuple))]
+        if pts:
+            return (min(p[0] for p in pts) - 20, min(p[1] for p in pts) - 20, max(p[0] for p in pts) + 20, max(p[1] for p in pts) + 20)
+    return None
+
+
+def _el_scale(e, s, ox, oy, tx, ty):
+    """Copie de l'élément, agrandi d'un facteur s : le point (ox, oy) va en (tx, ty)."""
+    e = dict(e)
+    fx = lambda v: tx + (v - ox) * s
+    fy = lambda v: ty + (v - oy) * s
+    t = e["type"]
+    if t == "arrow":
+        for k in ("frm", "to"):
+            if isinstance(e[k], (list, tuple)):
+                e[k] = (fx(e[k][0]), fy(e[k][1]))
+        e["width"] = max(2, round(e["width"] * s)); e["head"] = round(e["head"] * s); e["curve"] = e["curve"] * s
+        return e
+    e["x"], e["y"] = fx(e["x"]), fy(e["y"])
+    if t == "text":
+        old = e["size"]
+        if e.get("max_w"):
+            # mêmes retours à la ligne qu'avant l'agrandissement : largeur limite = ligne la plus large, mise à l'échelle
+            lay = layout_text(dict(e, x=0, y=0))
+            bb = lay["bbox"]
+            e["size"] = max(8, round(old * s))
+            e["max_w"] = (bb[2] - bb[0]) * e["size"] / old + 3
+            # coupures de lignes figées : l'agrandissement ne peut plus faire passer une phrase sur deux lignes
+            e["_lines"] = [(a, b) for a, b, _, _ in lay["lines"]]
+        else:
+            e["size"] = max(8, round(old * s))
+    elif t in ("box", "image"):
+        e["w"], e["h"] = round(e["w"] * s), round(e["h"] * s)
+        e["radius"] = round(e["radius"] * s)
+        if t == "image":
+            e["x"], e["y"] = round(e["x"]), round(e["y"])
+    elif t == "badge":
+        e["size"] = max(8, round(e["size"] * s)); e["pad"] = (round(e["pad"][0] * s), round(e["pad"][1] * s))
+    elif t == "countdown":
+        e["w"] = round(e["w"] * s)
+    return e
+
+
+def autofit(scenes, card_img=None):
+    """Agrandit et centre le contenu de chaque écran (un écran = les beats entre deux « clear »).
+    Tant qu'un écran ne montre que son titre, le titre est affiché en grand au centre, avec l'illustration du module."""
+    L, R, B = FIT_AREA
+    for sc in scenes:
+        if not sc.get("fit", True):
+            continue
+        screens, cur = [], []
+        for i, b in enumerate(sc["beats"]):
+            if (b["clear"] or i == 0) and cur:
+                screens.append(cur); cur = []
+            cur.append(b)
+        if cur:
+            screens.append(cur)
+        for beats in screens:
+            content = [e for b in beats for e in b["show"] if e["id"] not in FIXED_IDS]
+            titled = any(e["id"] in FIXED_IDS for b in beats for e in b["show"])
+            boxes = [bb for bb in (_el_bbox(e) for e in content) if bb]
+            if boxes:
+                x0, y0 = min(b[0] for b in boxes), min(b[1] for b in boxes)
+                x1, y1 = max(b[2] for b in boxes), max(b[3] for b in boxes)
+                # écran composé autour du milieu (un élément centré sur l'axe) : on garde cet axe au milieu,
+                # sinon un petit badge à gauche suffit à décaler toute la composition vers la droite
+                if any(e["type"] in ("text", "badge") and e.get("align") == "center" and abs(e["x"] - W / 2) < 2 for e in content):
+                    half = max(W / 2 - x0, x1 - W / 2)
+                    x0, x1 = W / 2 - half, W / 2 + half
+                top = 290 if titled else 125
+                aw, ah, bw, bh = R - L, B - top, max(1, x1 - x0), max(1, y1 - y0)
+                s = min(aw / bw, ah / bh, FIT_MAX)
+                if s < 1.04:
+                    s = 1.0                                # pas la place d'agrandir : on centre seulement
+                if bw * s <= aw + 1 and bh * s <= ah + 1:
+                    tx = L + (aw - bw * s) / 2
+                    ty = top + (ah - bh * s) * 0.42
+                    for b in beats:
+                        b["show"] = [e if e["id"] in FIXED_IDS else _el_scale(e, s, x0, y0, tx, ty) for e in b["show"]]
+            # écran de titre : tant que seul le titre est visible
+            if titled:
+                seen, pending = {}, True
+                for b in beats:
+                    has_content = any(e["id"] not in FIXED_IDS for e in b["show"])
+                    if pending and not has_content:
+                        for e in b["show"]:
+                            seen[e["id"]] = e
+                        big = []
+                        for e in b["show"]:
+                            e2 = dict(e)
+                            if e["id"] == "title":
+                                e2.update(x=W / 2, y=520 if card_img else 400, size=round(e["size"] * 1.45), align="center", max_w=1600)
+                            else:
+                                e2.update(x=W / 2, y=(520 if card_img else 400) + 150, size=round(e["size"] * 1.25), align="center", max_w=1500)
+                            big.append(e2)
+                        if card_img:
+                            big.insert(0, Img("_card", card_img, W // 2 - 240, 150, 480, 320, radius=32))
+                        b["show"] = big
+                    elif pending and has_content:
+                        pending = False
+                        if seen:
+                            b["show"] = list(seen.values()) + b["show"]
+                            b["hide"] = b["hide"] + ["_card"]
+
+
 def build(module_file, draft=False, scenes_sel=None):
     spec = importlib.util.spec_from_file_location("module_script", module_file)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     MODULE, SCENES = mod.MODULE, mod.SCENES
+    if MODULE.get("autofit"):
+        autofit(SCENES, MODULE.get("card_img"))
     if scenes_sel:
         SCENES = [SCENES[i] for i in scenes_sel]
     name = MODULE["slug"] + ("-brouillon" if draft else "") + (f"-scenes-{scenes_sel[0]+1}-{scenes_sel[-1]+1}" if scenes_sel else "")
@@ -698,7 +1027,15 @@ def build(module_file, draft=False, scenes_sel=None):
             # --- images du beat
             changed = state != prev_state
             ntr = int(round(TRANS * FPS)) if changed else 0
-            if ntr:
+            if changed and b.get("anim") and prev_state and not b["clear"]:
+                # transition animée : glissement des éléments déplacés, tracés dessinés ; seuls les vrais nouveaux éléments apparaissent en fondu
+                ntr = max(2, int(round(min(b["anim"], dur - 0.1) * FPS)))
+                fresh = {i for i in enter if i not in prev_state}
+                for f in range(ntr):
+                    p = (f + 1) / ntr
+                    emit(rnd.render(state, sc["title"], fresh, min(1.0, p * ntr / max(1, TRANS * FPS)), 0.0, dur,
+                                    move=(prev_state, p), draw_p=p), 1 / FPS)
+            elif ntr:
                 old = rnd.render(prev_state, sc["title"]) if prev_state else None
                 for f in range(ntr):
                     p = (f + 1) / ntr
